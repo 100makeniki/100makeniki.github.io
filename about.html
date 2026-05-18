@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>このサイトについて — 人生年表 Life Timeline Designer</title>
+  <meta name="description" content="人生年表 Life Timeline Designerは、あなたの過去・現在・未来を一本の年表に記録し、人生を設計するための無料ツールです。">
+  <style>
+    :root {
+      --primary: #4f7cff;
+      --primary-dark: #3a5fd9;
+      --bg: #f8f9ff;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #555577;
+      --border: #e0e4f0;
+      --accent: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .back-link {
+      font-size: 0.9rem;
+      color: var(--text-secondary) !important;
+      font-weight: 400 !important;
+    }
+    .back-link:hover { color: var(--primary) !important; }
+    header span { color: var(--border); }
+
+    /* Main */
+    main {
+      max-width: 800px;
+      margin: 48px auto;
+      padding: 0 24px 80px;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 48px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list li .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+    /* CTA */
+    .cta-box {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+    }
+    .cta-box h2 { color: white; font-size: 1.3rem; margin-bottom: 12px; }
+    .cta-box p { color: rgba(255,255,255,0.85); margin-bottom: 24px; }
+    .cta-btn {
+      display: inline-block;
+      background: white;
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://100makeniki.github.io/life-timeline/index.html">人生年表 Life Timeline Designer</a>
+  <span>|</span>
+  <a class="back-link" href="https://100makeniki.github.io/life-timeline/index.html">← トップへ戻る</a>
+</header>
+
+<main>
+  <h1 class="page-title">このサイトについて</h1>
+  <p class="page-subtitle">人生年表 Life Timeline Designer とは何か、なぜ作ったのか</p>
+
+  <div class="card">
+    <h2>📌 サイトの目的</h2>
+    <p>
+      「人生年表 Life Timeline Designer」は、あなたの過去・現在・未来を一本の年表に記録し、<strong>人生を俯瞰・設計するための無料Webツール</strong>です。
+    </p>
+    <p>
+      過去の出来事を振り返り、未来の目標を書き込むことで、自分の人生の流れを視覚的に把握できます。紙やExcelよりも簡単に、スマホやPCからいつでも使えます。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>✨ 主な機能</h2>
+    <ul class="feature-list">
+      <li><span class="icon">📝</span><span>仕事・家族・健康・財務・夢など6カテゴリでイベントを記録</span></li>
+      <li><span class="icon">📊</span><span>年齢と西暦を対応させたビジュアルタイムライン表示</span></li>
+      <li><span class="icon">💾</span><span>データはブラウザ内に保存（サーバーへの送信なし・完全無料）</span></li>
+      <li><span class="icon">🖨</span><span>印刷機能で紙の年表としても活用可能</span></li>
+      <li><span class="icon">📂</span><span>JSONファイルでの保存・読み込みに対応</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>💡 こんな人に使ってほしい</h2>
+    <p>
+      人生の節目を迎えた方、転職・結婚・独立などの大きな決断を前にしている方、老後の生活設計を始めたい方など、<strong>「自分の人生を整理したい」と感じているすべての方</strong>に使っていただけます。
+    </p>
+    <p>
+      年齢や職業を問わず、20代の目標設定から60代の人生振り返りまで、幅広くご活用いただけます。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔒 プライバシーについて</h2>
+    <p>
+      入力したデータはすべてお使いのブラウザ（localStorage）に保存されます。サーバーへの送信は一切ありません。個人情報が外部に漏れる心配なく、安心してお使いいただけます。
+    </p>
+    <p>
+      詳しくは <a href="https://100makeniki.github.io/life-timeline/privacy.html" style="color:var(--primary)">プライバシーポリシー</a> をご覧ください。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>👤 運営者について</h2>
+    <p>
+      このサイトは「100個のWebツール・アプリを作る」という個人プロジェクトの一環として開発・運営しています。
+    </p>
+    <p>
+      ご意見・ご要望・不具合のご報告は、<a href="https://100makeniki.github.io/life-timeline/contact.html" style="color:var(--primary)">お問い合わせページ</a>よりお気軽にどうぞ。
+    </p>
+    <p>📧 100makeniki@gmail.com</p>
+  </div>
+
+  <div class="cta-box">
+    <h2>さっそく使ってみよう</h2>
+    <p>登録不要・完全無料。あなたの人生年表を今すぐ作れます。</p>
+    <a class="cta-btn" href="https://100makeniki.github.io/life-timeline/index.html">年表を作る →</a>
+  </div>
+</main>
+
+<footer>
+  © 2025 人生年表 Life Timeline Designer |
+  <a href="https://100makeniki.github.io/life-timeline/privacy.html">プライバシーポリシー</a> |
+  <a href="https://100makeniki.github.io/life-timeline/contact.html">お問い合わせ</a>
+</footer>
+
+</body>
+</html>
