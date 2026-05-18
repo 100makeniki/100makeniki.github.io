@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生年表 — あなたの物語を設計する</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --aged: #e8dfc8;
+    --rust: #b5451b;
+    --gold: #c9942a;
+    --sage: #5a7a5a;
+    --muted: #7a6e62;
+    --line: #d4c9b0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,148,42,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(90,122,90,0.06) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 2rem 3rem 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 3rem;
+    right: 3rem;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.2;
+  }
+  .logo {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+  .logo span {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+  }
+  .header-right {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.2rem;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--rust); border-color: var(--rust); }
+
+  /* MAIN LAYOUT */
+  main {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    min-height: calc(100vh - 85px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    border-right: 1.5px solid var(--line);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(232,223,200,0.3);
+  }
+  .sidebar-section h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .form-row { margin-bottom: 1rem; }
+  .form-row label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+  .form-row input, .form-row select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-row input:focus, .form-row select:focus {
+    border-color: var(--ink);
+  }
+
+  /* CATEGORY CHIPS */
+  .category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .chip {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.75rem;
+    border: 1.5px solid var(--line);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Noto Serif JP', serif;
+    letter-spacing: 0.03em;
+    background: transparent;
+    color: var(--ink);
+  }
+  .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip:hover:not(.active) { border-color: var(--ink); }
+
+  .chip[data-cat="仕事"].active { background: var(--rust); border-color: var(--rust); }
+  .chip[data-cat="家族"].active { background: var(--sage); border-color: var(--sage); }
+  .chip[data-cat="健康"].active { background: #7a5a3a; border-color: #7a5a3a; }
+  .chip[data-cat="財務"].active { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .chip[data-cat="夢・目標"].active { background: #4a5a7a; border-color: #4a5a7a; }
+  .chip[data-cat="転機"].active { background: #7a4a5a; border-color: #7a4a5a; }
+
+  textarea.form-row-note {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea.form-row-note:focus { border-color: var(--ink); }
+
+  .add-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: background 0.18s;
+    margin-top: 0.5rem;
+  }
+  .add-btn:hover { background: var(--rust); }
+
+  /* TIMELINE */
+  .timeline-area {
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+  }
+  .timeline-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .timeline-header h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .timeline-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .age-filter {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .age-filter label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .age-filter select {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.5rem;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    outline: none;
+  }
+
+  /* DECADE BLOCKS */
+  .decade-block { margin-bottom: 3rem; }
+  .decade-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .decade-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* EVENT ITEM */
+  .event-item {
+    display: grid;
+    grid-template-columns: 80px 16px 1fr auto;
+    align-items: start;
+    gap: 0 1rem;
+    margin-bottom: 0.1rem;
+    padding: 0.75rem 0;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .event-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: right;
+    padding-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+  .event-year em {
+    display: block;
+    font-style: normal;
+    font-size: 0.62rem;
+    color: var(--gold);
+    margin-top: 0.1rem;
+  }
+  .event-dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.2rem;
+  }
+  .event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .event-line {
+    width: 1.5px;
+    flex: 1;
+    min-height: 30px;
+    background: var(--line);
+    margin-top: 3px;
+  }
+  .event-content {
+    padding-bottom: 0.5rem;
+  }
+  .event-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+  }
+  .event-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.2rem;
+    line-height: 1.4;
+  }
+  .event-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .event-delete {
+    background: none;
+    border: none;
+    color: var(--line);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem;
+    transition: color 0.15s;
+    margin-top: 0.1rem;
+  }
+  .event-delete:hover { color: var(--rust); }
+
+  /* COLOR per category */
+  .event-item[data-cat="仕事"] .event-dot { background: var(--rust); }
+  .event-item[data-cat="仕事"] .event-cat { color: var(--rust); }
+  .event-item[data-cat="家族"] .event-dot { background: var(--sage); }
+  .event-item[data-cat="家族"] .event-cat { color: var(--sage); }
+  .event-item[data-cat="健康"] .event-dot { background: #7a5a3a; }
+  .event-item[data-cat="健康"] .event-cat { color: #7a5a3a; }
+  .event-item[data-cat="財務"] .event-dot { background: var(--gold); }
+  .event-item[data-cat="財務"] .event-cat { color: var(--gold); }
+  .event-item[data-cat="夢・目標"] .event-dot { background: #4a5a7a; }
+  .event-item[data-cat="夢・目標"] .event-cat { color: #4a5a7a); }
+  .event-item[data-cat="転機"] .event-dot { background: #7a4a5a; }
+  .event-item[data-cat="転機"] .event-cat { color: #7a4a5a; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--muted);
+  }
+  .empty-state .big { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+  .empty-state p { font-size: 0.88rem; line-height: 1.8; }
+
+  /* LIFE STATS */
+  .life-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1.5px solid var(--line);
+    margin-bottom: 2.5rem;
+  }
+  .stat-box {
+    background: var(--paper);
+    padding: 1rem 1.25rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* FUTURE BADGE */
+  .future-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* PRINT */
+  @media print {
+    .sidebar, .header-right, .event-delete, .age-filter { display: none; }
+    main { grid-template-columns: 1fr; }
+    .timeline-area { padding: 1rem; }
+    header { padding: 1rem; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    人生年表
+    <span>Life Timeline Designer</span>
+  </div>
+  <div class="header-right">
+    <button class="btn" onclick="exportData()">💾 保存</button>
+    <button class="btn" onclick="importData()">📂 読込</button>
+    <button class="btn btn-primary" onclick="window.print()">🖨 印刷</button>
+  </div>
+</header>
+
+<main>
+  <!-- SIDEBAR: 入力フォーム -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3>あなたの情報</h3>
+      <div class="form-row">
+        <label>お名前</label>
+        <input type="text" id="userName" placeholder="山田 太郎" oninput="updateMeta()">
+      </div>
+      <div class="form-row">
+        <label>生年（西暦）</label>
+        <input type="number" id="birthYear" placeholder="1985" min="1900" max="2020" oninput="updateMeta()">
+      </div>
+      <div class="form-row">
+        <label>目標寿命</label>
+        <select id="targetAge" onchange="updateMeta()">
+          <option value="80">80歳</option>
+          <option value="85">85歳</option>
+          <option value="90" selected>90歳</option>
+          <option value="95">95歳</option>
+          <option value="100">100歳</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>イベントを追加</h3>
+      <div class="form-row">
+        <label>年（西暦）</label>
+        <input type="number" id="evtYear" placeholder="2025" min="1900" max="2100">
+      </div>
+      <div class="form-row">
+        <label>カテゴリ</label>
+        <div class="category-chips">
+          <button class="chip active" data-cat="仕事" onclick="selectCat(this)">仕事</button>
+          <button class="chip" data-cat="家族" onclick="selectCat(this)">家族</button>
+          <button class="chip" data-cat="健康" onclick="selectCat(this)">健康</button>
+          <button class="chip" data-cat="財務" onclick="selectCat(this)">財務</button>
+          <button class="chip" data-cat="夢・目標" onclick="selectCat(this)">夢・目標</button>
+          <button class="chip" data-cat="転機" onclick="selectCat(this)">転機</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>タイトル</label>
+        <input type="text" id="evtTitle" placeholder="例：定年退職、住宅購入...">
+      </div>
+      <div class="form-row">
+        <label>メモ（任意）</label>
+        <textarea class="form-row-note" id="evtNote" placeholder="詳細・目標金額・気持ちなど..."></textarea>
+      </div>
+      <button class="add-btn" onclick="addEvent()">＋ 年表に追加</button>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>サンプルデータ</h3>
+      <button class="btn" style="width:100%;font-size:0.75rem;" onclick="loadSample()">サンプルを読み込む</button>
+    </div>
+  </aside>
+
+  <!-- TIMELINE -->
+  <section class="timeline-area" id="timelineArea">
+    <div class="timeline-header">
+      <h2 id="timelineTitle">私の人生年表</h2>
+      <span class="timeline-meta" id="timelineMeta"></span>
+      <div class="age-filter">
+        <label>表示</label>
+        <select id="filterCat" onchange="renderTimeline()">
+          <option value="all">すべて</option>
+          <option value="仕事">仕事</option>
+          <option value="家族">家族</option>
+          <option value="健康">健康</option>
+          <option value="財務">財務</option>
+          <option value="夢・目標">夢・目標</option>
+          <option value="転機">転機</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="life-stats" id="lifeStats">
+      <div class="stat-box">
+        <div class="stat-num" id="statTotal">0</div>
+        <div class="stat-label">登録イベント</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statPast">0</div>
+        <div class="stat-label">過去の出来事</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statFuture">0</div>
+        <div class="stat-label">未来の計画</div>
+      </div>
+    </div>
+
+    <div id="timelineContent">
+      <div class="empty-state">
+        <div class="big">📜</div>
+        <p>左のフォームからイベントを追加して<br>あなただけの人生年表を作りましょう。<br><br>「サンプルを読み込む」でイメージを確認できます。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  let events = [];
+  let selectedCat = '仕事';
+  const currentYear = new Date().getFullYear();
+
+  function selectCat(el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedCat = el.dataset.cat;
+  }
+
+  function updateMeta() {
+    const name = document.getElementById('userName').value;
+    const birth = parseInt(document.getElementById('birthYear').value);
+    const target = parseInt(document.getElementById('targetAge').value);
+    if (name) document.getElementById('timelineTitle').textContent = name + ' の人生年表';
+    if (birth && target) {
+      const endYear = birth + target;
+      document.getElementById('timelineMeta').textContent = `${birth} — ${endYear}`;
+    }
+  }
+
+  function addEvent() {
+    const year = parseInt(document.getElementById('evtYear').value);
+    const title = document.getElementById('evtTitle').value.trim();
+    if (!year || !title) { alert('年とタイトルを入力してください'); return; }
+    events.push({ year, cat: selectedCat, title, note: document.getElementById('evtNote').value.trim(), id: Date.now() });
+    events.sort((a, b) => a.year - b.year);
+    document.getElementById('evtYear').value = '';
+    document.getElementById('evtTitle').value = '';
+    document.getElementById('evtNote').value = '';
+    renderTimeline();
+    saveLocal();
+  }
+
+  function deleteEvent(id) {
+    events = events.filter(e => e.id !== id);
+    renderTimeline();
+    saveLocal();
+  }
+
+  function renderTimeline() {
+    const filter = document.getElementById('filterCat').value;
+    const birth = parseInt(document.getElementById('birthYear').value) || null;
+    let filtered = filter === 'all' ? [...events] : events.filter(e => e.cat === filter);
+
+    const past = events.filter(e => e.year <= currentYear).length;
+    const future = events.filter(e => e.year > currentYear).length;
+    document.getElementById('statTotal').textContent = events.length;
+    document.getElementById('statPast').textContent = past;
+    document.getElementById('statFuture').textContent = future;
+
+    if (filtered.length === 0) {
+      document.getElementById('timelineContent').innerHTML = `
+        <div class="empty-state">
+          <div class="big">📜</div>
+          <p>左のフォームからイベントを追加して<br>あなただけの人生年表を作りましょう。</p>
+        </div>`;
+      return;
+    }
+
+    // Group by decade
+    const decades = {};
+    filtered.forEach(e => {
+      const dec = Math.floor(e.year / 10) * 10;
+      if (!decades[dec]) decades[dec] = [];
+      decades[dec].push(e);
+    });
+
+    let html = '';
+    Object.keys(decades).sort((a,b)=>a-b).forEach(dec => {
+      const items = decades[dec];
+      const decLabel = `${dec}年代`;
+      html += `<div class="decade-block"><div class="decade-label">${decLabel}</div>`;
+      items.forEach((e, i) => {
+        const isLast = i === items.length - 1;
+        const isFuture = e.year > currentYear;
+        const age = birth ? `${e.year - birth}歳` : '';
+        const futureBadge = isFuture ? '<span class="future-badge">PLAN</span>' : '';
+        html += `
+          <div class="event-item" data-cat="${e.cat}">
+            <div class="event-year">${e.year}<em>${age}</em></div>
+            <div class="event-dot-col">
+              <div class="event-dot"></div>
+              ${!isLast ? '<div class="event-line"></div>' : ''}
+            </div>
+            <div class="event-content">
+              <div class="event-cat">${e.cat}</div>
+              <div class="event-title">${e.title}${futureBadge}</div>
+              ${e.note ? `<div class="event-note">${e.note}</div>` : ''}
+            </div>
+            <button class="event-delete" onclick="deleteEvent(${e.id})" title="削除">×</button>
+          </div>`;
+      });
+      html += '</div>';
+    });
+    document.getElementById('timelineContent').innerHTML = html;
+  }
+
+  function saveLocal() {
+    localStorage.setItem('lifeTimeline', JSON.stringify(events));
+  }
+
+  function exportData() {
+    const data = {
+      name: document.getElementById('userName').value,
+      birthYear: document.getElementById('birthYear').value,
+      targetAge: document.getElementById('targetAge').value,
+      events
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '人生年表_' + (data.name || 'data') + '.json';
+    a.click();
+  }
+
+  function importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = e => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (data.name) document.getElementById('userName').value = data.name;
+          if (data.birthYear) document.getElementById('birthYear').value = data.birthYear;
+          if (data.targetAge) document.getElementById('targetAge').value = data.targetAge;
+          events = data.events || [];
+          updateMeta();
+          renderTimeline();
+          saveLocal();
+        } catch { alert('ファイルの読み込みに失敗しました'); }
+      };
+      reader.readAsText(e.target.files[0]);
+    };
+    input.click();
+  }
+
+  function loadSample() {
+    document.getElementById('userName').value = '山田 花子';
+    document.getElementById('birthYear').value = '1985';
+    document.getElementById('targetAge').value = '90';
+    events = [
+      { id: 1, year: 1985, cat: '家族', title: '誕生', note: '東京都生まれ' },
+      { id: 2, year: 2004, cat: '仕事', title: '大学入学', note: '経済学部へ進学' },
+      { id: 3, year: 2007, cat: '財務', title: '初めての投資信託', note: 'つみたてNISA前身を開始。月1万円から。' },
+      { id: 4, year: 2008, cat: '仕事', title: '就職', note: 'IT企業に入社。年収320万円スタート。' },
+      { id: 5, year: 2012, cat: '家族', title: '結婚', note: '35歳を目処に家族計画を立てていたが早まった' },
+      { id: 6, year: 2014, cat: '家族', title: '第一子誕生', note: '育休1年取得。資産形成を一時停止。' },
+      { id: 7, year: 2018, cat: '財務', title: 'マンション購入', note: '3500万円・35年ローン。頭金700万円用意。' },
+      { id: 8, year: 2020, cat: '仕事', title: '転職・年収アップ', note: '年収480万→620万。副業もスタート。' },
+      { id: 9, year: 2023, cat: '財務', title: 'NISA満額投資開始', note: '年360万円上限フル活用。老後資金の柱に。' },
+      { id: 10, year: 2025, cat: '夢・目標', title: 'サイド収入 月3万達成', note: '副業サイト運営で安定収入へ' },
+      { id: 11, year: 2030, cat: '財務', title: '資産3000万円目標', note: 'NISA+iDeCo+不動産で達成予定' },
+      { id: 12, year: 2035, cat: '仕事', title: '独立・フリーランス転向', note: '50歳で会社に依存しない働き方へ' },
+      { id: 13, year: 2040, cat: '家族', title: '子どもの大学卒業', note: '教育費終了。資産形成を加速。' },
+      { id: 14, year: 2045, cat: '健康', title: '人間ドック強化', note: '60歳から毎年精密検査。予防医療に投資。' },
+      { id: 15, year: 2050, cat: '財務', title: 'セミリタイア', note: '資産8000万円を目標。取り崩し生活へ移行。' },
+      { id: 16, year: 2055, cat: '夢・目標', title: '世界一周旅行', note: '70歳記念。夫婦で6ヶ月かけて旅する。' },
+      { id: 17, year: 2075, cat: '健康', title: '90歳 健康寿命の維持', note: '自立した生活を続けることが最大の目標。' },
+    ];
+    updateMeta();
+    renderTimeline();
+  }
+
+  // Load from localStorage on start
+  const saved = localStorage.getItem('lifeTimeline');
+  if (saved) {
+    try { events = JSON.parse(saved); renderTimeline(); } catch {}
+  }
+</script>
+</body>
+</html>
