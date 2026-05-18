@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>目標達成率が上がる年表の書き方 — 人生年表 Life Timeline Designer</title>
+  <meta name="description" content="「目標を立てても続かない」という人のために、人生年表を使って目標達成率を上げる書き方と考え方を具体的に解説します。">
+  <style>
+    :root { --primary: #4f7cff; --primary-dark: #3a5fd9; --bg: #f8f9ff; --surface: #ffffff; --text: #1a1a2e; --text-secondary: #555577; --border: #e0e4f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.9; }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
+    header a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1rem; }
+    .back-link { font-size: 0.9rem; color: var(--text-secondary) !important; font-weight: 400 !important; }
+    header span { color: var(--border); }
+    main { max-width: 760px; margin: 48px auto; padding: 0 24px 80px; }
+    .article-category { display: inline-block; background: #f59e0b; color: white; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 50px; margin-bottom: 16px; }
+    .article-title { font-size: 1.9rem; font-weight: 800; line-height: 1.4; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .article-meta { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 40px; }
+    .lead { background: var(--surface); border-left: 4px solid #f59e0b; border-radius: 0 12px 12px 0; padding: 20px 24px; margin-bottom: 40px; color: var(--text-secondary); font-size: 1.05rem; }
+    h2 { font-size: 1.35rem; font-weight: 800; color: var(--text); margin: 48px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+    h3 { font-size: 1.1rem; font-weight: 700; color: #d97706; margin: 28px 0 10px; }
+    p { color: var(--text-secondary); margin-bottom: 16px; }
+    .tip-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid #f59e0b; border-radius: 0 16px 16px 0; padding: 20px 24px; margin-bottom: 20px; }
+    .tip-card h3 { margin: 0 0 8px; }
+    .tip-card p { margin: 0; }
+    .bad-good { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    @media (max-width: 600px) { .bad-good { grid-template-columns: 1fr; } }
+    .bad { background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; padding: 16px 20px; }
+    .good { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px 20px; }
+    .bad-label { font-size: 0.8rem; font-weight: 700; color: #e11d48; margin-bottom: 8px; }
+    .good-label { font-size: 0.8rem; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
+    .bad p, .good p { margin: 0; font-size: 0.95rem; }
+    .summary-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 16px; padding: 28px; margin: 40px 0; }
+    .summary-box h3 { color: #92400e; margin: 0 0 12px; }
+    .summary-box ol { padding-left: 20px; }
+    .summary-box li { color: #78350f; margin-bottom: 8px; }
+    .cta-box { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 16px; padding: 36px 32px; text-align: center; color: white; margin-top: 48px; }
+    .cta-box h2 { color: white; border: none; margin: 0 0 10px; font-size: 1.3rem; }
+    .cta-box p { color: rgba(255,255,255,0.9); margin-bottom: 24px; }
+    .cta-btn { display: inline-block; background: white; color: #d97706; font-weight: 700; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-size: 1rem; }
+    footer { text-align: center; padding: 32px 16px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--primary); text-decoration: none; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="https://100makeniki.github.io/life-timeline/index.html">人生年表 Life Timeline Designer</a>
+  <span>|</span>
+  <a class="back-link" href="https://100makeniki.github.io/life-timeline/index.html">← トップへ戻る</a>
+</header>
+<main>
+  <span class="article-category">目標設定</span>
+  <h1 class="article-title">目標達成率が上がる年表の書き方</h1>
+  <p class="article-meta">2025年1月 掲載</p>
+
+  <div class="lead">
+    「毎年同じ目標を立てて、また挫折する」という経験はありませんか？目標が達成できない原因の多くは、目標の立て方ではなく「時間軸との紐づけ」ができていないことにあります。
+  </div>
+
+  <h2>なぜ目標は達成されないのか</h2>
+  <p>目標設定の研究によると、目標を「いつまでに」という期限と結びつけることで、達成率が大幅に上がることが知られています。しかし多くの人は「いつか独立したい」「そのうち資格を取りたい」という曖昧な形で目標を持っています。</p>
+  <p>人生年表は、目標を「年齢・西暦」と紐づけて記録することができます。これだけで目標が「いつか」から「〇〇年」に変わり、逆算して今何をすべきかが明確になります。</p>
+
+  <h2>目標達成率を上げる5つの書き方のコツ</h2>
+
+  <div class="tip-card">
+    <h3>コツ1：目標を「年齢」と結びつける</h3>
+    <p>「副業を始めたい」ではなく「35歳（2026年）に副業を開始する」と書きます。年齢と西暦を入れることで、目標が現実の時間軸に落とし込まれ、緊張感が生まれます。</p>
+  </div>
+
+  <div class="tip-card">
+    <h3>コツ2：大きな目標を「中間地点」に分割する</h3>
+    <p>「50歳で独立」という目標があれば、「40歳：副業開始」「43歳：副業収入月10万円達成」「47歳：法人化」という中間目標を年表に書き込みます。大きな山を小さな丘に分けることで、毎年の行動が明確になります。</p>
+  </div>
+
+  <div class="tip-card">
+    <h3>コツ3：過去の達成実績も書き込む</h3>
+    <p>未来の目標だけでなく、過去に達成したことも年表に記録しましょう。「あの資格を取れた」「転職して給与が上がった」などの実績を振り返ることで、自己効力感（自分にもできるという感覚）が高まり、新しい目標への意欲が生まれます。</p>
+  </div>
+
+  <div class="tip-card">
+    <h3>コツ4：目標のカテゴリを分ける</h3>
+    <p>仕事・お金・健康・家族・夢、それぞれにバランスよく目標を持つことが大切です。仕事の目標ばかりが並んでいる年表は、達成しても満足感が薄くなりがちです。人生全体のバランスを見ながら目標を設定しましょう。</p>
+  </div>
+
+  <div class="tip-card">
+    <h3>コツ5：年に一度、年表を見直す</h3>
+    <p>年初や誕生日など、決まったタイミングで年表を振り返る習慣をつけましょう。達成できたものには印をつけ、状況が変わった目標は更新します。年表は「完成させるもの」ではなく「育てていくもの」です。</p>
+  </div>
+
+  <h2>目標の書き方：NG例とOK例</h2>
+  <p>同じ目標でも、書き方次第で達成率が変わります。</p>
+
+  <div class="bad-good">
+    <div class="bad">
+      <p class="bad-label">❌ NG：曖昧な書き方</p>
+      <p>「いつか家を買いたい」<br>「そのうち転職したい」<br>「将来的に独立を考えている」</p>
+    </div>
+    <div class="good">
+      <p class="good-label">✅ OK：具体的な書き方</p>
+      <p>「38歳（2029年）に住宅購入」<br>「来年3月までに転職活動完了」<br>「42歳で個人事業主として独立」</p>
+    </div>
+  </div>
+
+  <h2>人生年表を使った目標管理の流れ</h2>
+
+  <h3>1. まず「10年後のゴール」を1つ決める</h3>
+  <p>完璧でなくていいです。「こうなっていたい」という漠然としたイメージを言葉にして、年表の未来欄に書き込みます。</p>
+
+  <h3>2. 5年後・3年後・1年後のマイルストーンを追加する</h3>
+  <p>10年後のゴールから逆算して、5年後・3年後・来年の時点でどこにいるべきかを書き込みます。</p>
+
+  <h3>3. 今月・今週やるべきことを決める</h3>
+  <p>年表はあくまでも中長期の地図です。年表を見ながら、「今月は何をすべきか」を日々のToDoに落とし込む習慣をつけましょう。</p>
+
+  <div class="summary-box">
+    <h3>📌 目標達成率を上げる年表の書き方まとめ</h3>
+    <ol>
+      <li>目標は必ず「年齢・西暦」と結びつけて書く</li>
+      <li>大きな目標を中間地点に分割する</li>
+      <li>過去の達成実績も記録して自信の根拠にする</li>
+      <li>仕事・健康・家族・お金・夢のバランスを意識する</li>
+      <li>年に一度、必ず見直して更新する</li>
+    </ol>
+  </div>
+
+  <div class="cta-box">
+    <h2>今日から目標を年表に書き込もう</h2>
+    <p>無料・登録不要。あなたの目標を時間軸に落とし込めます。</p>
+    <a class="cta-btn" href="https://100makeniki.github.io/life-timeline/index.html">年表を作る →</a>
+  </div>
+</main>
+<footer>
+  © 2025 人生年表 Life Timeline Designer |
+  <a href="privacy.html">プライバシーポリシー</a> |
+  <a href="about.html">このサイトについて</a> |
+  <a href="contact.html">お問い合わせ</a>
+</footer>
+</body>
+</html>
