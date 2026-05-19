@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>目標設定マンダラチャート — 人生年表 Life Timeline Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --aged: #e8dfc8;
+    --rust: #b5451b;
+    --gold: #c9942a;
+    --muted: #7a6e62;
+    --line: #d4c9b0;
+    --cell-bg: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    line-height: 1.6;
+  }
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 2rem 3rem 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo span {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+  }
+  .back-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.1rem;
+  }
+  .back-link:hover { color: var(--ink); border-color: var(--ink); }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+  .container {
+    text-align: center;
+  }
+  h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .lead {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  /* マンダラチャート全体の3x3グリッド */
+  .mandala-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
+  /* 9マス（ブロック）のスタイル */
+  .mandala-block {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--line);
+    padding: 2px;
+    border: 1px solid var(--line);
+  }
+
+  /* 各セルのスタイル */
+  .mandala-cell {
+    background: var(--cell-bg);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--ink);
+    text-align: center;
+    word-break: break-all;
+    transition: background-color 0.2s;
+  }
+
+  /* 中央ブロック、および各ブロックの中央セルの強調 */
+  /* 1. 全体の一番中心（人生のメインテーマ） */
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell:nth-child(5) {
+    background: var(--rust);
+    color: #ffffff;
+    font-weight: 700;
+  }
+  
+  /* 2. 周辺ブロックの中央（要素テーマ） */
+  .mandala-block > .mandala-cell:nth-child(5) {
+    background: var(--aged);
+    font-weight: 700;
+  }
+
+  /* 3. 中央ブロックの周囲（ここも要素テーマと連動） */
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell {
+    background: var(--aged);
+  }
+
+  /* レスポンシブ対応：スマホではスクロールできるようにするか、グリッドを維持 */
+  @media (max-width: 768px) {
+    header { padding: 1.5rem; }
+    main { padding: 2rem 1rem; }
+    .mandala-grid { gap: 0.5rem; }
+    .mandala-cell { font-size: 0.6rem; padding: 1px; }
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--line);
+    margin-top: 4rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    人生年表
+    <span>Life Timeline Designer</span>
+  </a>
+  <a href="index.html" class="back-link">← トップへ戻る</a>
+</header>
+
+<main>
+  <div class="container">
+    <h1>目標設定マンダラチャート</h1>
+    <p class="lead">人生年表で描いた未来を、9つの要素と行動にブレイクダウンする</p>
+    
+    <div class="mandala-grid">
+      <!-- 1. 左上ブロック（キャリア・仕事） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">仕事<br>キャリア</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 2. 中央上ブロック（財務・お金） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">財務<br>お金</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 3. 右上ブロック（健康・美容） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">健康</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 4. 中央左ブロック（家族・人間関係） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">家族<br>人間関係</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 5. 核心：中央ブロック（メインテーマと各要素の連動） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">仕事<br>キャリア</div>
+        <div class="mandala-cell">財務<br>お金</div>
+        <div class="mandala-cell">健康</div>
+        <div class="mandala-cell">家族<br>人間関係</div>
+        <div class="mandala-cell">人生の<br>メイン<br>テーマ</div>
+        <div class="mandala-cell">趣味<br>教養</div>
+        <div class="mandala-cell">ライフ<br>プラン</div>
+        <div class="mandala-cell">日々の<br>習慣</div>
+        <div class="mandala-cell">自己変革</div>
+      </div>
+
+      <!-- 6. 中央右ブロック（趣味・教養） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">趣味<br>教養</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 7. 左下ブロック（ライフプラン・環境） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">ライフ<br>プラン</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 8. 中央下ブロック（日々の習慣・ルーティン） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">日々の<br>習慣</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+
+      <!-- 9. 右下ブロック（自己変革・メンタル） -->
+      <div class="mandala-block">
+        <div class="mandala-cell">行動1</div>
+        <div class="mandala-cell">行動2</div>
+        <div class="mandala-cell">行動3</div>
+        <div class="mandala-cell">行動4</div>
+        <div class="mandala-cell">自己変革</div>
+        <div class="mandala-cell">行動5</div>
+        <div class="mandala-cell">行動6</div>
+        <div class="mandala-cell">行動7</div>
+        <div class="mandala-cell">行動8</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2025 人生年表 Life Timeline Designer — All rights reserved.
+</footer>
+
+</body>
+</html>
