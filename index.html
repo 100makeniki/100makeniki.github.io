@@ -279,7 +279,7 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 1.2rem;
+    margin-bottom: 12rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -443,7 +443,7 @@
     vertical-align: middle;
   }
 
-  /* MANDALA VIEW SPECIFIC (100%エディタ仕様にリニューアル) */
+  /* MANDALA VIEW SPECIFIC */
   .mandala-container {
     max-width: 840px;
     margin: 0 auto;
@@ -474,7 +474,6 @@
     color: var(--ink);
     text-align: center;
   }
-  /* マス目を自由入力可能なtextareaに変更 */
   .mandala-cell textarea {
     width: 100%;
     height: 100%;
@@ -661,18 +660,16 @@
         <span class="timeline-meta" id="mandalaMeta"></span>
       </div>
       <p style="font-size:0.85rem; color:var(--muted); text-align:left; margin-bottom:1rem;">
-        すべてのマス目を自由に編集・書き換え可能です。入力した内容はブラウザに自動保存されます。
+        中央の5番ブロック（グレー/赤枠）の周囲を埋めると、外周ブロックの中心へ自動で文字が変換・連動されます。入力内容は自動保存されます。
       </p>
 
       <div class="mandala-grid" id="mandalaGridContent">
         <script>
           let gridHtml = '';
-          // 9つのブロックを作る
           for (let b = 1; b <= 9; b++) {
             gridHtml += `<div class="mandala-block">`;
-            // 各ブロックの中に9つのセルを作る
             for (let c = 1; c <= 9; c++) {
-              gridHtml += `<div class="mandala-cell"><textarea id="m-cell-${b}-${c}" placeholder="自由に入力" oninput="saveMandalaLocal()"></textarea></div>`;
+              gridHtml += `<div class="mandala-cell"><textarea id="m-cell-${b}-${c}" placeholder="自由入力" oninput="handleMandalaInput(${b}, ${c})"></textarea></div>`;
             }
             gridHtml += `</div>`;
           }
@@ -692,7 +689,11 @@
   let selectedCat = '仕事';
   const currentYear = new Date().getFullYear();
 
-  // タブ切り切り替えロジック
+  // マンダラチャートのインデックス・連動マッピング（1〜9のセルと外周1〜9のブロック関係）
+  // 5番（真ん中）の周囲のセル番号 [1,2,3,4,6,7,8,9] と同期する外周ブロック番号の対応表
+  const cellToBlockMap = { 1: 1, 2: 2, 3: 3, 4: 4, 6: 6, 7: 7, 8: 8, 9: 9 };
+  const blockToCellMap = { 1: 1, 2: 2, 3: 3, 4: 4, 6: 6, 7: 7, 8: 8, 9: 9 };
+
   function switchView(viewName) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
@@ -808,12 +809,30 @@
     document.getElementById('timelineContent').innerHTML = html;
   }
 
-  // 年表の保存
   function saveLocal() {
     localStorage.setItem('lifeTimeline', JSON.stringify(events));
   }
 
-  // マンダラチャート専用の自動保存ロジック
+  // 入力時の双方向変換・自動同期ハンドラー
+  function handleMandalaInput(blockNum, cellNum) {
+    const value = document.getElementById(`m-cell-${blockNum}-${cellNum}`).value;
+
+    // パターンA: 中央ブロック(5)の周囲8マスが変更された場合 -> 対応する外周ブロックの中心(5番セル)を書き換える
+    if (blockNum === 5 && cellToBlockMap[cellNum]) {
+      const targetBlock = cellToBlockMap[cellNum];
+      const targetCell = document.getElementById(`m-cell-${targetBlock}-5`);
+      if (targetCell) targetCell.value = value;
+    }
+    // パターンB: 外周ブロックの中心(5番セル)が変更された場合 -> 中央ブロック(5)の対応するマスを書き換える
+    else if (blockNum !== 5 && cellNum === 5 && blockToCellMap[blockNum]) {
+      const targetCellNum = blockToCellMap[blockNum];
+      const targetCell = document.getElementById(`m-cell-5-${targetCellNum}`);
+      if (targetCell) targetCell.value = value;
+    }
+
+    saveMandalaLocal();
+  }
+
   function saveMandalaLocal() {
     const mandalaData = {};
     for (let b = 1; b <= 9; b++) {
@@ -825,7 +844,6 @@
     localStorage.setItem('freeMandalaData', JSON.stringify(mandalaData));
   }
 
-  // マンダラチャート専用の読込ロジック
   function loadMandalaLocal() {
     const savedMandala = localStorage.getItem('freeMandalaData');
     if (savedMandala) {
@@ -837,7 +855,6 @@
         }
       } catch(e) {}
     } else {
-      // 初期サンプル文字を薄く表示（プレースホルダーではなく値として設定して自由に書き換え可能に）
       setupMandalaDefaultValues();
     }
   }
@@ -855,6 +872,7 @@
       const el = document.getElementById(id);
       if (el) el.value = defaults[id];
     }
+    saveMandalaLocal(); // 初期配置をローカルにも即時適用
   }
 
   function clearMandala() {
@@ -869,7 +887,6 @@
     }
   }
 
-  // 全データ保存（ファイルダウンロード）
   function exportData() {
     const mandalaData = {};
     for (let b = 1; b <= 9; b++) {
@@ -892,7 +909,6 @@
     a.click();
   }
 
-  // 全データ読み込み
   function importData() {
     const input = document.createElement('input');
     input.type = 'file';
@@ -951,7 +967,6 @@
     renderTimeline();
   }
 
-  // 起動時の読込
   window.onload = function() {
     const saved = localStorage.getItem('lifeTimeline');
     if (saved) {
