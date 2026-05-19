@@ -4,100 +4,290 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>コラム一覧 — 人生年表 Life Timeline Designer</title>
-  <meta name="description" content="人生年表・人生設計・目標設定・老後設計に関するコラム記事をまとめています。">
+  <meta name="description" content="人生年表、マンダラチャート、優先度マトリクス（時間管理）を用いた人生設計・目標設定・資産形成に関する実践的なコラム記事をまとめています。">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #4f7cff; --primary-dark: #3a5fd9; --bg: #f8f9ff; --surface: #ffffff; --text: #1a1a2e; --text-secondary: #555577; --border: #e0e4f0; }
+    :root {
+      --ink: #1a1410;
+      --paper: #f5f0e8;
+      --aged: #e8dfc8;
+      --rust: #b5451b;
+      --gold: #c9942a;
+      --sage: #5a7a5a;
+      --muted: #7a6e62;
+      --line: #d4c9b0;
+      --surface: #ffffff;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
-    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
-    header a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1rem; }
-    .back-link { font-size: 0.9rem; color: var(--text-secondary) !important; font-weight: 400 !important; }
-    header span { color: var(--border); }
-    main { max-width: 800px; margin: 48px auto; padding: 0 24px 80px; }
-    .page-title { font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
-    .page-subtitle { color: var(--text-secondary); margin-bottom: 40px; }
-    .article-grid { display: grid; gap: 20px; }
-    .article-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
-    .article-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(79,124,255,0.1); }
-    .article-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .tag { font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 50px; color: white; }
-    .article-card-date { font-size: 0.8rem; color: var(--text-secondary); }
-    .article-card h2 { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
-    .article-card p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
-    .read-more { display: inline-block; margin-top: 12px; font-size: 0.85rem; color: var(--primary); font-weight: 600; }
-    footer { text-align: center; padding: 32px 16px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); }
-    footer a { color: var(--primary); text-decoration: none; }
+
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.8;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(201,148,42,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(90,122,90,0.03) 0%, transparent 50%);
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 2px solid var(--ink);
+      padding: 1.5rem 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .header-logo {
+      font-family: 'Shippori Mincho', serif;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--line);
+      padding: 0.4rem 1rem;
+      transition: all 0.2s;
+    }
+    .back-link:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      max-width: 840px;
+      margin: 4rem auto;
+      padding: 0 24px 80px;
+    }
+    
+    .page-header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .page-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ARTICLE GRID */
+    .article-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 2rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .article-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--ink);
+      box-shadow: 0 6px 16px rgba(26,20,16,0.04);
+    }
+    .article-card-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .tag {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.8rem;
+      color: var(--surface);
+      letter-spacing: 0.05em;
+    }
+    .article-card-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .article-card h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+    .article-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+    }
+    .article-card:hover .read-more {
+      color: var(--rust);
+      border-color: var(--rust);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2.5rem 16px;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      border-top: 1px solid var(--line);
+      background: rgba(232,223,200,0.2);
+    }
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    footer a:hover {
+      border-color: var(--muted);
+    }
   </style>
 </head>
 <body>
+
 <header>
-  <a href="https://100makeniki.github.io/life-timeline/index.html">人生年表 Life Timeline Designer</a>
-  <span>|</span>
-  <a class="back-link" href="https://100makeniki.github.io/life-timeline/index.html">← トップへ戻る</a>
+  <a href="index.html" class="header-logo">人生年表 Life Timeline Designer</a>
+  <a class="back-link" href="index.html">← APP BACK</a>
 </header>
+
 <main>
-  <h1 class="page-title">コラム一覧</h1>
-  <p class="page-subtitle">人生設計・目標達成・老後設計に役立つ記事をまとめています</p>
+  <div class="page-header">
+    <h1 class="page-title">設計の思想</h1>
+    <p class="page-subtitle">人生年表、マンダラチャート、時間管理マトリクスを使いこなすための思考法</p>
+  </div>
 
   <div class="article-grid">
 
+    <!-- 記事1 -->
     <a class="article-card" href="article1.html">
       <div class="article-card-top">
-        <span class="tag" style="background:#4f7cff;">人生年表とは</span>
-        <span class="article-card-date">2025年1月</span>
+        <span class="tag" style="background:var(--rust);">人生年表の基本</span>
+        <span class="article-card-date">2026.04</span>
       </div>
-      <h2>人生年表とは？自分の人生を見える化する5つのメリット</h2>
-      <p>自己理解・目標設定・人生設計に役立つ人生年表の基本と魅力をわかりやすく解説します。</p>
-      <span class="read-more">記事を読む →</span>
+      <h2>人生を見える化する──年表がもたらす5つの客観的メリット</h2>
+      <p>「なんとなくの不安」を言語化し、過去の経験則と未来のファクトを結びつける。自己理解と現実的なライフプラン設計の土台となる年表の真価を解説します。</p>
+      <span class="read-more">思想を読む →</span>
     </a>
 
+    <!-- 記事2 -->
     <a class="article-card" href="article2.html">
       <div class="article-card-top">
-        <span class="tag" style="background:#10b981;">人生設計</span>
-        <span class="article-card-date">2025年1月</span>
+        <span class="tag" style="background:var(--sage);">人生設計</span>
+        <span class="article-card-date">2026.04</span>
       </div>
-      <h2>30代から始める人生設計の方法</h2>
-      <p>仕事・家族・お金・健康の4つの観点から、30代が今すぐできる人生設計の具体的な方法を紹介。</p>
-      <span class="read-more">記事を読む →</span>
+      <h2>30代からのグランドデザイン──4つの軸で引く人生の境界線</h2>
+      <p>仕事、家族、財務、健康。場当たり的な選択を捨て、複利的に効いてくる30代のコア領域をどう定義し、10年単位のブロックに落とし込むか。具体的なアプローチを紹介。</p>
+      <span class="read-more">思想を読む →</span>
     </a>
 
+    <!-- 記事3 -->
     <a class="article-card" href="article3.html">
       <div class="article-card-top">
-        <span class="tag" style="background:#f59e0b;">目標設定</span>
-        <span class="article-card-date">2025年1月</span>
+        <span class="tag" style="background:var(--gold); color:var(--ink);">目標設定</span>
+        <span class="article-card-date">2026.04</span>
       </div>
-      <h2>目標達成率が上がる年表の書き方</h2>
-      <p>「目標を立てても続かない」という人に向けて、時間軸と結びつけた目標管理のコツを解説。</p>
-      <span class="read-more">記事を読む →</span>
+      <h2>「絵に描いた餅」にしない目標管理──時間軸と因果を一致させる</h2>
+      <p>目標が頓挫するのは意志が弱いからではない。時間軸のシミュレーション不足が原因です。達成率を飛躍的に高める「年表連動型」の目標プロット術。</p>
+      <span class="read-more">思想を読む →</span>
     </a>
 
+    <!-- 新記事4: マンダラチャート -->
     <a class="article-card" href="article4.html">
       <div class="article-card-top">
-        <span class="tag" style="background:#8b5cf6;">自己分析</span>
-        <span class="article-card-date">2025年1月</span>
+        <span class="tag" style="background:#4a5a7a;">マンダラチャート</span>
+        <span class="article-card-date">2026.05</span>
       </div>
-      <h2>人生の転機を記録するとわかること</h2>
-      <p>転機を年表に記録することで見えてくる自分のパターン・価値観・回復力について解説します。</p>
-      <span class="read-more">記事を読む →</span>
+      <h2>思考のグリッド化──81マスで欲望とロジックを両立させる技術</h2>
+      <p>抽象的な夢を、実行可能なタスクへ分解する。中央の「核心」から放射状に広がる9×9のフレームワークを使い、思考の抜け漏れを完全に排除する本質的な使い方。</p>
+      <span class="read-more">思想を読む →</span>
     </a>
 
+    <!-- 新記事5: 優先度マトリクス -->
     <a class="article-card" href="article5.html">
       <div class="article-card-top">
-        <span class="tag" style="background:#0ea5e9;">老後設計</span>
-        <span class="article-card-date">2025年1月</span>
+        <span class="tag" style="background:#7a4a5a;">時間管理</span>
+        <span class="article-card-date">2026.05</span>
       </div>
-      <h2>老後を見据えた人生年表の活用法</h2>
-      <p>退職・年金・介護・資産形成など、老後に必要な準備を人生年表で整理する方法をわかりやすく紹介。</p>
-      <span class="read-more">記事を読む →</span>
+      <h2>第Ⅱ領域への投資──「重要だが緊急ではないこと」だけで人生を埋める方法</h2>
+      <p>日々の雑務（第Ⅲ・Ⅳ領域）にリソースを食い潰されていませんか？ アイゼンハワーマトリクスを駆使し、資産形成、健康、自己投資といった「未来の果実」に冷徹に集中するための戦略。</p>
+      <span class="read-more">思想を読む →</span>
+    </a>
+
+    <!-- 新記事6: 資産形成（実務） -->
+    <a class="article-card" href="article6.html">
+      <div class="article-card-top">
+        <span class="tag" style="background:var(--muted);">資産形成</span>
+        <span class="article-card-date">2026.05</span>
+      </div>
+      <h2>個人資産の形成シミュレーション──年表に「数字の裏付け」を持たせる</h2>
+      <p>理想論ではないライフプラン。事業収入やmisc収入の税務的な区分けから、ライフイベント（住宅・教育・セカンドライフ）発生時のキャッシュフローの読み解き方まで。</p>
+      <span class="read-more">思想を読む →</span>
+    </a>
+
+    <!-- 記事7 -->
+    <a class="article-card" href="article7.html">
+      <div class="article-card-top">
+        <span class="tag" style="background:#7a5a3a;">自己分析</span>
+        <span class="article-card-date">2026.05</span>
+      </div>
+      <h2>転機のアーカイブ──過去の「破壊と再生」から自身の行動パターンを知る</h2>
+      <p>人生の大きな分岐点やアクシデントを年表に記録することで、自分が逆境からどう立ち直ってきたか（レジリエンス）の「再現性ある必勝パターン」を抽出します。</p>
+      <span class="read-more">思想を読む →</span>
+    </a>
+
+    <!-- 記事8 -->
+    <a class="article-card" href="article8.html">
+      <div class="article-card-top">
+        <span class="tag" style="background:var(--ink);">老後設計</span>
+        <span class="article-card-date">2026.05</span>
+      </div>
+      <h2>終局からの逆算──健康寿命の維持と自立したシニアライフの設計</h2>
+      <p>目標寿命から逆算して、60代・70代でどのような準備が必要か。退職後のコミュニティ、予防医療、そして「最後まで自分の足で歩く」ための具体的なマイルストーン設定。</p>
+      <span class="read-more">思想を読む →</span>
     </a>
 
   </div>
 </main>
+
 <footer>
-  © 2025 人生年表 Life Timeline Designer |
-  <a href="privacy.html">プライバシーポリシー</a> |
-  <a href="about.html">このサイトについて</a> |
+  © 2026 人生年表 Life Timeline Designer &nbsp;|&nbsp;
+  <a href="privacy.html">プライバシーポリシー</a> | 
+  <a href="about.html">このサイトについて</a> | 
   <a href="contact.html">お問い合わせ</a>
 </footer>
+
 </body>
 </html>
