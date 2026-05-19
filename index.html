@@ -443,7 +443,7 @@
     vertical-align: middle;
   }
 
-  /* MANDALA VIEW SPECIFIC */
+  /* MANDALA VIEW SPECIFIC (100%エディタ仕様にリニューアル) */
   .mandala-container {
     max-width: 840px;
     margin: 0 auto;
@@ -469,32 +469,64 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.3rem;
+    padding: 2px;
     font-size: 0.75rem;
     color: var(--ink);
     text-align: center;
-    word-break: break-all;
   }
-  /* Center Block Core Cell */
+  /* マス目を自由入力可能なtextareaに変更 */
+  .mandala-cell textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    background: transparent;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--ink);
+    outline: none;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 核心・各中心マスのスタイリング */
   .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell:nth-child(5) {
     background: var(--rust);
+  }
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell:nth-child(5) textarea {
     color: #ffffff;
     font-weight: 700;
   }
-  /* Sub-theme Core Cells */
   .mandala-block > .mandala-cell:nth-child(5) {
     background: var(--aged);
+  }
+  .mandala-block > .mandala-cell:nth-child(5) textarea {
     font-weight: 700;
   }
-  /* Inner distribution tags mapping colors */
-  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell { background: var(--aged); font-weight: 700; }
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell { 
+    background: var(--aged); 
+  }
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell textarea { 
+    font-weight: 700; 
+  }
+
+  .mandala-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 
   /* PRINT */
   @media print {
-    .sidebar, .header-right, .event-delete, .age-filter, .view-switcher { display: none; }
+    .sidebar, .header-right, .event-delete, .age-filter, .view-switcher, .mandala-controls { display: none; }
     main { grid-template-columns: 1fr; }
     .content-panel { display: block !important; padding: 1rem; }
     header { padding: 1rem; }
+    .mandala-cell textarea { border: none !important; }
   }
 
   /* SCROLLBAR */
@@ -511,7 +543,6 @@
     <span>Life Timeline Designer</span>
   </div>
 
-  <!-- VIEW SWITCHER: タブ切り替えボタン -->
   <div class="view-switcher">
     <button class="tab-btn active" id="tabTimeline" onclick="switchView('timeline')">⏳ 人生年表</button>
     <button class="tab-btn" id="tabMandala" onclick="switchView('mandala')">🧩 マンダラチャート</button>
@@ -525,7 +556,6 @@
 </header>
 
 <main>
-  <!-- SIDEBAR: 入力フォーム (共通) -->
   <aside class="sidebar">
     <div class="sidebar-section">
       <h3>あなたの情報</h3>
@@ -549,7 +579,6 @@
       </div>
     </div>
 
-    <!-- 年表用フォームセクション (年表タブの時のみ有効活用される前提ですが常駐) -->
     <div class="sidebar-section" id="sidebarEventInput">
       <h3>イベントを追加</h3>
       <div class="form-row">
@@ -584,7 +613,6 @@
     </div>
   </aside>
 
-  <!-- PANEL 1: TIMELINE AREA -->
   <section class="content-panel active" id="timelineArea">
     <div class="timeline-header">
       <h2 id="timelineTitle">私の人生年表</h2>
@@ -626,7 +654,6 @@
     </div>
   </section>
 
-  <!-- PANEL 2: MANDALA CHART AREA -->
   <section class="content-panel" id="mandalaArea">
     <div class="mandala-container">
       <div class="timeline-header">
@@ -634,29 +661,27 @@
         <span class="timeline-meta" id="mandalaMeta"></span>
       </div>
       <p style="font-size:0.85rem; color:var(--muted); text-align:left; margin-bottom:1rem;">
-        ※現在表示中の年表をもとに、主要な未来計画からブレイクダウンされた行動展開のイメージです。
+        すべてのマス目を自由に編集・書き換え可能です。入力した内容はブラウザに自動保存されます。
       </p>
 
       <div class="mandala-grid" id="mandalaGridContent">
-        <!-- JSで動的に、あるいは静的に出力（以下は基本枠組み） -->
-        <!-- 1. 左上: 仕事 -->
-        <div class="mandala-block"><div class="mandala-cell">副業開始</div><div class="mandala-cell">スキルアップ</div><div class="mandala-cell">市場調査</div><div class="mandala-cell">人脈作り</div><div class="mandala-cell" style="color:var(--rust)">仕事</div><div class="mandala-cell">計画策定</div><div class="mandala-cell">資金準備</div><div class="mandala-cell">情報発信</div><div class="mandala-cell">独立準備</div></div>
-        <!-- 2. 中上: 財務 -->
-        <div class="mandala-block"><div class="mandala-cell">NISA運用</div><div class="mandala-cell">家計見直し</div><div class="mandala-cell">固定費削減</div><div class="mandala-cell">投資勉強</div><div class="mandala-cell" style="color:var(--gold)">財務</div><div class="mandala-cell">先取り貯金</div><div class="mandala-cell">資産確認</div><div class="mandala-cell">副収入増</div><div class="mandala-cell">リスク管理</div></div>
-        <!-- 3. 右上: 健康 -->
-        <div class="mandala-block"><div class="mandala-cell">毎日歩く</div><div class="mandala-cell">睡眠確保</div><div class="mandala-cell">食事管理</div><div class="mandala-cell">定期検診</div><div class="mandala-cell" style="color:#7a5a3a">健康</div><div class="mandala-cell">筋トレ</div><div class="mandala-cell">ストレスケア</div><div class="mandala-cell">禁煙/節酒</div><div class="mandala-cell">歯の検診</div></div>
-        <!-- 4. 中左: 家族 -->
-        <div class="mandala-block"><div class="mandala-cell">記念日祝う</div><div class="mandala-cell">会話の時間</div><div class="mandala-cell">家事分担</div><div class="mandala-cell">連絡まめに</div><div class="mandala-cell" style="color:var(--sage)">家族</div><div class="mandala-cell">旅行計画</div><div class="mandala-cell">教育費準備</div><div class="mandala-cell">親への感謝</div><div class="mandala-cell">イベント</div></div>
-        <!-- 5. 中心核心ブロック -->
-        <div class="mandala-block"><div class="mandala-cell">仕事</div><div class="mandala-cell">財務</div><div class="mandala-cell">健康</div><div class="mandala-cell">家族</div><div class="mandala-cell">核心</div><div class="mandala-cell">夢・目標</div><div class="mandala-cell">転機</div><div class="mandala-cell">日常</div><div class="mandala-cell">学習</div></div>
-        <!-- 6. 中右: 夢・目標 -->
-        <div class="mandala-block"><div class="mandala-cell">リスト作成</div><div class="mandala-cell">時間確保</div><div class="mandala-cell">情報収集</div><div class="mandala-cell">一歩踏み出す</div><div class="mandala-cell" style="color:#4a5a7a">夢・目標</div><div class="mandala-cell">仲間を探す</div><div class="mandala-cell">発信する</div><div class="mandala-cell">継続する</div><div class="mandala-cell">達成祝う</div></div>
-        <!-- 7. 左下: 転機 -->
-        <div class="mandala-block"><div class="mandala-cell">環境変化</div><div class="mandala-cell">即断即決</div><div class="mandala-cell">柔軟性</div><div class="mandala-cell">マインドセット</div><div class="mandala-cell" style="color:#7a4a5a">転機</div><div class="mandala-cell">リスク取る</div><div class="mandala-cell">過去を整理</div><div class="mandala-cell">前を向く</div><div class="mandala-cell">新しい道</div></div>
-        <!-- 8. 中下: 日常 -->
-        <div class="mandala-block"><div class="mandala-cell">早起き</div><div class="mandala-cell">掃除</div><div class="mandala-cell">読書</div><div class="mandala-cell">日記</div><div class="mandala-cell">日常</div><div class="mandala-cell">瞑想</div><div class="mandala-cell">ルーティン</div><div class="mandala-cell">感謝</div><div class="mandala-cell">時間の使い方</div></div>
-        <!-- 9. 右下: 学習 -->
-        <div class="mandala-block"><div class="mandala-cell">資格取得</div><div class="mandala-cell">毎日の勉強</div><div class="mandala-cell">本を読む</div><div class="mandala-cell">アウトプット</div><div class="mandala-cell">学習</div><div class="mandala-cell">講座受講</div><div class="mandala-cell">知識共有</div><div class="mandala-cell">深い思考</div><div class="mandala-cell">実践</div></div>
+        <script>
+          let gridHtml = '';
+          // 9つのブロックを作る
+          for (let b = 1; b <= 9; b++) {
+            gridHtml += `<div class="mandala-block">`;
+            // 各ブロックの中に9つのセルを作る
+            for (let c = 1; c <= 9; c++) {
+              gridHtml += `<div class="mandala-cell"><textarea id="m-cell-${b}-${c}" placeholder="自由に入力" oninput="saveMandalaLocal()"></textarea></div>`;
+            }
+            gridHtml += `</div>`;
+          }
+          document.write(gridHtml);
+        </script>
+      </div>
+
+      <div class="mandala-controls">
+        <button class="btn btn-secondary" style="font-size:0.75rem;" onclick="clearMandala()">チャートをすべて消去</button>
       </div>
     </div>
   </section>
@@ -667,7 +692,7 @@
   let selectedCat = '仕事';
   const currentYear = new Date().getFullYear();
 
-  // タブ切り替えロジック
+  // タブ切り切り替えロジック
   function switchView(viewName) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
@@ -783,24 +808,91 @@
     document.getElementById('timelineContent').innerHTML = html;
   }
 
+  // 年表の保存
   function saveLocal() {
     localStorage.setItem('lifeTimeline', JSON.stringify(events));
   }
 
+  // マンダラチャート専用の自動保存ロジック
+  function saveMandalaLocal() {
+    const mandalaData = {};
+    for (let b = 1; b <= 9; b++) {
+      for (let c = 1; c <= 9; c++) {
+        const id = `m-cell-${b}-${c}`;
+        mandalaData[id] = document.getElementById(id).value;
+      }
+    }
+    localStorage.setItem('freeMandalaData', JSON.stringify(mandalaData));
+  }
+
+  // マンダラチャート専用の読込ロジック
+  function loadMandalaLocal() {
+    const savedMandala = localStorage.getItem('freeMandalaData');
+    if (savedMandala) {
+      try {
+        const mandalaData = JSON.parse(savedMandala);
+        for (const id in mandalaData) {
+          const el = document.getElementById(id);
+          if (el) el.value = mandalaData[id];
+        }
+      } catch(e) {}
+    } else {
+      // 初期サンプル文字を薄く表示（プレースホルダーではなく値として設定して自由に書き換え可能に）
+      setupMandalaDefaultValues();
+    }
+  }
+
+  function setupMandalaDefaultValues() {
+    const defaults = {
+      'm-cell-1-5': '仕事', 'm-cell-2-5': '財務', 'm-cell-3-5': '健康',
+      'm-cell-4-5': '家族', 'm-cell-5-5': '核心', 'm-cell-6-5': '夢・目標',
+      'm-cell-7-5': '転機', 'm-cell-8-5': '日常', 'm-cell-9-5': '学習',
+      'm-cell-5-1': '仕事', 'm-cell-5-2': '財務', 'm-cell-5-3': '健康',
+      'm-cell-5-4': '家族', 'm-cell-5-6': '夢・目標', 'm-cell-5-7': '転機',
+      'm-cell-5-8': '日常', 'm-cell-5-9': '学習'
+    };
+    for (const id in defaults) {
+      const el = document.getElementById(id);
+      if (el) el.value = defaults[id];
+    }
+  }
+
+  function clearMandala() {
+    if (confirm('マンダラチャートの入力をすべて消去します。よろしいですか？')) {
+      for (let b = 1; b <= 9; b++) {
+        for (let c = 1; c <= 9; c++) {
+          document.getElementById(`m-cell-${b}-${c}`).value = '';
+        }
+      }
+      localStorage.removeItem('freeMandalaData');
+      setupMandalaDefaultValues();
+    }
+  }
+
+  // 全データ保存（ファイルダウンロード）
   function exportData() {
+    const mandalaData = {};
+    for (let b = 1; b <= 9; b++) {
+      for (let c = 1; c <= 9; c++) {
+        const id = `m-cell-${b}-${c}`;
+        mandalaData[id] = document.getElementById(id).value;
+      }
+    }
     const data = {
       name: document.getElementById('userName').value,
       birthYear: document.getElementById('birthYear').value,
       targetAge: document.getElementById('targetAge').value,
-      events
+      events,
+      mandalaData
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = '人生年表_' + (data.name || 'data') + '.json';
+    a.download = '人生年表_総合データ_' + (data.name || 'data') + '.json';
     a.click();
   }
 
+  // 全データ読み込み
   function importData() {
     const input = document.createElement('input');
     input.type = 'file';
@@ -817,6 +909,14 @@
           updateMeta();
           renderTimeline();
           saveLocal();
+          
+          if (data.mandalaData) {
+            for (const id in data.mandalaData) {
+              const el = document.getElementById(id);
+              if (el) el.value = data.mandalaData[id];
+            }
+            saveMandalaLocal();
+          }
         } catch { alert('ファイルの読み込みに失敗しました'); }
       };
       reader.readAsText(e.target.files[0]);
@@ -851,13 +951,20 @@
     renderTimeline();
   }
 
-  const saved = localStorage.getItem('lifeTimeline');
-  if (saved) {
-    try { events = JSON.parse(saved); renderTimeline(); } catch {}
+  // 起動時の読込
+  window.onload = function() {
+    const saved = localStorage.getItem('lifeTimeline');
+    if (saved) {
+      try { events = JSON.parse(saved); renderTimeline(); } catch {}
+    }
+    loadMandalaLocal();
+    updateMeta();
   }
 </script>
+
 <footer style="text-align:center; padding: 1.5rem; font-family:'DM Mono',monospace; font-size:0.65rem; color:#7a6e62; letter-spacing:0.1em; border-top: 1px solid #d4c9b0; margin-top: 2rem;">
   © 2026 人生年表 Life Timeline Designer &nbsp;|&nbsp;
-<a href="privacy.html">プライバシーポリシー</a> | <a href="about.html">このサイトについて</a> | <a href="contact.html">お問い合わせ</a> | <a href="blog.html">コラム</a>
+  <a href="privacy.html">プライバシーポリシー</a> | <a href="about.html">このサイトについて</a> | <a href="contact.html">お問い合わせ</a> | <a href="blog.html">コラム</a>
+</footer>
 </body>
 </html>
