@@ -3,262 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>人生年表とは？自分の人生を見える化する5つのメリット — 人生年表 Life Timeline Designer</title>
-  <meta name="description" content="人生年表とは何か、作ることでどんなメリットがあるのかを詳しく解説します。自己理解・目標設定・人生設計に役立つ人生年表の魅力をわかりやすく紹介。">
+  <title>人生を見える化する──年表がもたらす5つの客観的メリット — Life Timeline Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #4f7cff;
-      --primary-dark: #3a5fd9;
-      --bg: #f8f9ff;
-      --surface: #ffffff;
-      --text: #1a1a2e;
-      --text-secondary: #555577;
-      --border: #e0e4f0;
-      --accent: #ff6b6b;
-    }
+    :root { --ink: #1a1410; --paper: #f5f0e8; --aged: #e8dfc8; --rust: #b5451b; --gold: #c9942a; --sage: #5a7a5a; --muted: #7a6e62; --line: #d4c9b0; --surface: #ffffff; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.9;
-    }
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    header a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1rem; }
-    .back-link { font-size: 0.9rem; color: var(--text-secondary) !important; font-weight: 400 !important; }
-    header span { color: var(--border); }
-
-    main { max-width: 760px; margin: 48px auto; padding: 0 24px 80px; }
-
-    .article-header { margin-bottom: 40px; }
-    .article-category {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 50px;
-      margin-bottom: 16px;
-      letter-spacing: 0.05em;
-    }
-    .article-title {
-      font-size: 1.9rem;
-      font-weight: 800;
-      line-height: 1.4;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .article-meta { color: var(--text-secondary); font-size: 0.85rem; }
-
-    .lead {
-      background: var(--surface);
-      border-left: 4px solid var(--primary);
-      border-radius: 0 12px 12px 0;
-      padding: 20px 24px;
-      margin-bottom: 40px;
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-    }
-
-    h2 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--text);
-      margin: 48px 0 16px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--border);
-    }
-    h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin: 28px 0 10px;
-    }
-    p { color: var(--text-secondary); margin-bottom: 16px; }
-
-    .merit-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px 28px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    .merit-number {
-      background: var(--primary);
-      color: white;
-      font-weight: 800;
-      font-size: 1.1rem;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .merit-body h3 { margin: 0 0 8px; color: var(--text); }
-    .merit-body p { margin: 0; }
-
-    .summary-box {
-      background: linear-gradient(135deg, #eef2ff 0%, #f0f4ff 100%);
-      border: 1px solid #c7d2fe;
-      border-radius: 16px;
-      padding: 28px;
-      margin: 40px 0;
-    }
-    .summary-box h3 { color: var(--primary-dark); margin: 0 0 12px; }
-    .summary-box ul { padding-left: 20px; }
-    .summary-box li { color: var(--text-secondary); margin-bottom: 6px; }
-
-    .cta-box {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-radius: 16px;
-      padding: 36px 32px;
-      text-align: center;
-      color: white;
-      margin-top: 48px;
-    }
-    .cta-box h2 { color: white; border: none; margin: 0 0 10px; font-size: 1.3rem; }
-    .cta-box p { color: rgba(255,255,255,0.85); margin-bottom: 24px; }
-    .cta-btn {
-      display: inline-block;
-      background: white;
-      color: var(--primary-dark);
-      font-weight: 700;
-      padding: 14px 36px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: transform 0.2s;
-    }
-    .cta-btn:hover { transform: translateY(-2px); }
-
-    footer {
-      text-align: center;
-      padding: 32px 16px;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--border);
-    }
-    footer a { color: var(--primary); text-decoration: none; }
+    body { font-family: 'Noto Serif JP', serif; background: var(--paper); color: var(--ink); line-height: 1.8; padding: 0 24px; }
+    header { max-width: 800px; margin: 0 auto; padding: 1.5rem 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    header a { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); text-decoration: none; border: 1px solid var(--line); padding: 0.4rem 1rem; transition: all 0.2s; }
+    header a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    main { max-width: 800px; margin: 4rem auto; background: var(--surface); border: 1px solid var(--line); padding: 3rem 4rem; }
+    .meta { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.1em; }
+    h1 { font-family: 'Shippori Mincho', serif; font-size: 2rem; font-weight: 700; line-height: 1.4; margin-bottom: 2rem; color: var(--ink); }
+    p { margin-bottom: 1.5rem; font-size: 0.95rem; text-align: justify; }
+    h2 { font-family: 'Shippori Mincho', serif; font-size: 1.3rem; margin: 2.5rem 0 1rem; padding-left: 0.75rem; border-left: 3px solid var(--rust); }
+    ul { margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 0.95rem; }
+    li { margin-bottom: 0.5rem; }
+    footer { text-align: center; padding: 3rem 0; font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); border-top: 1px solid var(--line); margin-top: 4rem; }
+    @media (max-width: 600px) { main { padding: 2rem 1.5rem; margin: 2rem auto; } h1 { font-size: 1.5rem; } }
   </style>
 </head>
 <body>
-<header>
-  <a href="https://100makeniki.github.io/life-timeline/index.html">人生年表 Life Timeline Designer</a>
-  <span>|</span>
-  <a class="back-link" href="https://100makeniki.github.io/life-timeline/index.html">← トップへ戻る</a>
-</header>
-
+<header><span style="font-family:'Shippori Mincho';font-weight:700;">Life Timeline Designer</span><a href="blog.html">← BLOG LIST</a></header>
 <main>
-  <div class="article-header">
-    <span class="article-category">人生年表とは</span>
-    <h1 class="article-title">人生年表とは？自分の人生を<br>見える化する5つのメリット</h1>
-    <p class="article-meta">2025年1月 掲載</p>
-  </div>
+  <div class="meta">2026.04 / THE ESSENCE</div>
+  <h1>人生を見える化する──年表がもたらす5つの客観的メリット</h1>
+  <p>多くの人が「将来へのなんとなくの不安」を抱えて生きています。しかし、その不安の本質は「見えないこと」そのものにあります。頭の中だけで引き算や足し算を繰り返すのをやめ、一本の時間軸に事実と予測をプロットする──それだけで、混沌とした思考は冷徹な戦略へと変わります。本稿では、人生年表を作成することでもたらされる5つの客観的メリットを解説します。</p>
+  
+  <h2>1. 脳内リソースの解放と不安の言語化</h2>
+  <p>「何歳でいくら必要か」「いつまで働けるか」といった不確定要素を脳内だけで処理しようとすると、ワーキングメモリが常に逼迫します。年表にすべてを書き出すことで外部メモリ化され、脳は「悩むためのインフラ」から「対策を練るためのエンジン」へと切り替わります。</p>
 
-  <div class="lead">
-    「自分の人生、このままでいいのだろうか」と感じたことはありませんか？人生年表は、過去・現在・未来を一本の線で整理し、自分の人生を客観的に見つめ直すための強力なツールです。
-  </div>
+  <h2>2. 過去の経験則（アセット）の再発見</h2>
+  <p>年表は未来のためだけのものではありません。過去のセクションに「いつ、どんな決断をし、どう乗り越えたか」を記録することで、自分自身の成功パターンや、逆境におけるレジリエンスの傾向が可視化されます。過去のファクトこそが、未来を支える最大の盾になります。</p>
 
-  <h2>人生年表とは何か</h2>
-  <p>人生年表とは、自分の生まれから現在、そして将来の目標や計画までを時系列に並べた「自分専用の年表」です。一般的な歴史年表が出来事を年代順に記録するように、人生年表は<strong>自分の出来事・転機・目標を年代順に記録</strong>します。</p>
-  <p>記録する内容は人それぞれです。就職・結婚・転居といった大きな出来事から、資格取得・趣味の始まり・家族の変化など、自分にとって意味のある出来事を自由に記入できます。</p>
-  <p>最近では紙や手帳だけでなく、スマートフォンやパソコンで手軽に作れるWebツールも増えてきました。</p>
+  <h2>3. ライフイベントの「重なり」を予知する</h2>
+  <p>単一の目標（例：住宅購入）だけを見ていると、同時期に発生する別のイベント（例：親の介護、子どもの進学、自身のキャリア転換）を見落としがちです。時間軸を一元化することで、リソース（時間・資金）が枯渇する「危険地帯」を5年、10年前に予知し、先手を打つことが可能になります。</p>
 
-  <h2>人生年表を作る5つのメリット</h2>
+  <h2>4. 時間の有限性を「手触り感」をもって理解する</h2>
+  <p>「残り30年」と言われてもピンときませんが、年表のグリッドとして視覚化されると、自由に動ける時間が驚くほど短いことに気づかされます。この健全な焦燥感こそが、先延ばし癖を撃退し、今すぐ行動を起こすための最高のトリガーとなります。</p>
 
-  <div class="merit-card">
-    <div class="merit-number">1</div>
-    <div class="merit-body">
-      <h3>自己理解が深まる</h3>
-      <p>過去の出来事を年表に並べることで、自分がどんな選択をしてきたか、何を大切にしてきたかが見えてきます。「なぜあの時転職したのか」「どんな時に充実感を感じていたか」など、自分のパターンや価値観を客観的に把握できます。</p>
-    </div>
-  </div>
-
-  <div class="merit-card">
-    <div class="merit-number">2</div>
-    <div class="merit-body">
-      <h3>将来の目標が具体的になる</h3>
-      <p>未来の欄に「50歳までに独立」「子どもが大学卒業したら夫婦で旅行」などを書き込むことで、漠然とした夢が具体的な目標に変わります。年齢と紐づけることで、「逆算して今何をすべきか」が明確になります。</p>
-    </div>
-  </div>
-
-  <div class="merit-card">
-    <div class="merit-number">3</div>
-    <div class="merit-body">
-      <h3>人生全体を俯瞰できる</h3>
-      <p>日々の生活に追われていると、木を見て森を見ずになりがちです。人生年表は自分の一生を一枚の絵のように見渡せるため、「今自分は人生のどこにいるのか」を確認でき、長期的な視点で物事を考えられるようになります。</p>
-    </div>
-  </div>
-
-  <div class="merit-card">
-    <div class="merit-number">4</div>
-    <div class="merit-body">
-      <h3>大きな決断がしやすくなる</h3>
-      <p>転職・結婚・住宅購入・独立など、人生の大きな決断の前に年表を確認すると判断の材料が増えます。「過去の自分はどう決断してきたか」「この決断は将来の目標とつながっているか」を整理してから動けます。</p>
-    </div>
-  </div>
-
-  <div class="merit-card">
-    <div class="merit-number">5</div>
-    <div class="merit-body">
-      <h3>家族や老後の計画が立てやすくなる</h3>
-      <p>子どもの進学・親の介護・自分の定年など、家族に関わるライフイベントを一緒に記録することで、お金や時間の準備が必要な時期が一目でわかります。特に30代・40代からの老後設計に役立ちます。</p>
-    </div>
-  </div>
-
-  <h2>人生年表に書くべき内容</h2>
-  <p>何を書けばいいか迷う方のために、記録しておくと役立つ項目をカテゴリ別にまとめました。</p>
-
-  <h3>仕事・キャリア</h3>
-  <p>入社・転職・昇進・独立・資格取得など。キャリアの流れを振り返ることで、自分の強みや方向性が見えてきます。</p>
-
-  <h3>家族・人間関係</h3>
-  <p>結婚・出産・子どもの入学・親の介護など。家族の変化は生活設計に直結するため、しっかり記録しておくことが大切です。</p>
-
-  <h3>健康</h3>
-  <p>大きな病気・手術・健康診断の結果など。健康の変化を記録することで、自分の身体の傾向を把握できます。</p>
-
-  <h3>財務・お金</h3>
-  <p>住宅購入・ローン完済・投資開始など。お金のマイルストーンを記録することで、資産形成の計画が立てやすくなります。</p>
-
-  <h3>夢・目標</h3>
-  <p>やりたいこと・行きたい場所・達成したい目標など。未来の欄に書き込むことで、日々の行動の指針になります。</p>
-
-  <div class="summary-box">
-    <h3>📌 まとめ</h3>
-    <ul>
-      <li>人生年表とは、自分の過去・現在・未来を時系列に整理したもの</li>
-      <li>自己理解・目標設定・人生設計の3つに特に効果的</li>
-      <li>仕事・家族・健康・財務・夢の5カテゴリを記録するのがおすすめ</li>
-      <li>紙でも作れるが、Webツールを使うと管理・更新が格段に楽になる</li>
-    </ul>
-  </div>
-
-  <div class="cta-box">
-    <h2>無料で人生年表を作ってみよう</h2>
-    <p>登録不要・完全無料。今すぐあなたの人生年表を作れます。</p>
-    <a class="cta-btn" href="https://100makeniki.github.io/life-timeline/index.html">年表を作る →</a>
-  </div>
+  <h2>5. 「やらないこと」を冷徹に決める基準になる</h2>
+  <p>すべての夢を同時に叶えることはできません。年表という限られたキャンバスを眺めることで、「この時期はキャリアに集中するから、大きな投資は見送る」といったトレードオフの決断が容易になります。人生の密度を上げるには、足し算ではなく引き算が必要です。</p>
 </main>
-
-<footer>
-  © 2025 人生年表 Life Timeline Designer |
-  <a href="privacy.html">プライバシーポリシー</a> |
-  <a href="about.html">このサイトについて</a> |
-  <a href="contact.html">お問い合わせ</a>
-</footer>
+<footer>© 2026 人生年表 Life Timeline Designer</footer>
 </body>
 </html>
