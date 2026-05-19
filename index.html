@@ -16,6 +16,7 @@
     --sage: #5a7a5a;
     --muted: #7a6e62;
     --line: #d4c9b0;
+    --cell-bg: #ffffff;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -67,6 +68,35 @@
     margin-top: 0.4rem;
     text-transform: uppercase;
   }
+
+  /* VIEW SWITCHER TABS */
+  .view-switcher {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: -0.5rem;
+  }
+  .tab-btn {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid transparent;
+    border-bottom: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--ink);
+    border-color: var(--ink);
+    background: var(--paper);
+    position: relative;
+    z-index: 5;
+  }
+  .tab-btn:hover:not(.active) { color: var(--ink); }
+
   .header-right {
     display: flex;
     gap: 0.75rem;
@@ -195,11 +225,11 @@
   }
   .add-btn:hover { background: var(--rust); }
 
-  /* TIMELINE */
-  .timeline-area {
-    padding: 2.5rem 3rem;
-    overflow-y: auto;
-  }
+  /* CONTENT AREAS */
+  .content-panel { display: none; padding: 2.5rem 3rem; overflow-y: auto; }
+  .content-panel.active { display: block; }
+
+  /* TIMELINE VIEW SPECIFIC */
   .timeline-header {
     display: flex;
     align-items: baseline;
@@ -358,7 +388,7 @@
   .event-item[data-cat="財務"] .event-dot { background: var(--gold); }
   .event-item[data-cat="財務"] .event-cat { color: var(--gold); }
   .event-item[data-cat="夢・目標"] .event-dot { background: #4a5a7a; }
-  .event-item[data-cat="夢・目標"] .event-cat { color: #4a5a7a); }
+  .event-item[data-cat="夢・目標"] .event-cat { color: #4a5a7a; }
   .event-item[data-cat="転機"] .event-dot { background: #7a4a5a; }
   .event-item[data-cat="転機"] .event-cat { color: #7a4a5a; }
 
@@ -413,11 +443,57 @@
     vertical-align: middle;
   }
 
+  /* MANDALA VIEW SPECIFIC */
+  .mandala-container {
+    max-width: 840px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .mandala-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .mandala-block {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--line);
+    padding: 2px;
+    border: 1px solid var(--line);
+  }
+  .mandala-cell {
+    background: var(--cell-bg);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--ink);
+    text-align: center;
+    word-break: break-all;
+  }
+  /* Center Block Core Cell */
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell:nth-child(5) {
+    background: var(--rust);
+    color: #ffffff;
+    font-weight: 700;
+  }
+  /* Sub-theme Core Cells */
+  .mandala-block > .mandala-cell:nth-child(5) {
+    background: var(--aged);
+    font-weight: 700;
+  }
+  /* Inner distribution tags mapping colors */
+  .mandala-grid > .mandala-block:nth-child(5) > .mandala-cell { background: var(--aged); font-weight: 700; }
+
   /* PRINT */
   @media print {
-    .sidebar, .header-right, .event-delete, .age-filter { display: none; }
+    .sidebar, .header-right, .event-delete, .age-filter, .view-switcher { display: none; }
     main { grid-template-columns: 1fr; }
-    .timeline-area { padding: 1rem; }
+    .content-panel { display: block !important; padding: 1rem; }
     header { padding: 1rem; }
   }
 
@@ -434,6 +510,13 @@
     人生年表
     <span>Life Timeline Designer</span>
   </div>
+
+  <!-- VIEW SWITCHER: タブ切り替えボタン -->
+  <div class="view-switcher">
+    <button class="tab-btn active" id="tabTimeline" onclick="switchView('timeline')">⏳ 人生年表</button>
+    <button class="tab-btn" id="tabMandala" onclick="switchView('mandala')">🧩 マンダラチャート</button>
+  </div>
+
   <div class="header-right">
     <button class="btn" onclick="exportData()">💾 保存</button>
     <button class="btn" onclick="importData()">📂 読込</button>
@@ -442,7 +525,7 @@
 </header>
 
 <main>
-  <!-- SIDEBAR: 入力フォーム -->
+  <!-- SIDEBAR: 入力フォーム (共通) -->
   <aside class="sidebar">
     <div class="sidebar-section">
       <h3>あなたの情報</h3>
@@ -466,7 +549,8 @@
       </div>
     </div>
 
-    <div class="sidebar-section">
+    <!-- 年表用フォームセクション (年表タブの時のみ有効活用される前提ですが常駐) -->
+    <div class="sidebar-section" id="sidebarEventInput">
       <h3>イベントを追加</h3>
       <div class="form-row">
         <label>年（西暦）</label>
@@ -500,8 +584,8 @@
     </div>
   </aside>
 
-  <!-- TIMELINE -->
-  <section class="timeline-area" id="timelineArea">
+  <!-- PANEL 1: TIMELINE AREA -->
+  <section class="content-panel active" id="timelineArea">
     <div class="timeline-header">
       <h2 id="timelineTitle">私の人生年表</h2>
       <span class="timeline-meta" id="timelineMeta"></span>
@@ -541,12 +625,69 @@
       </div>
     </div>
   </section>
+
+  <!-- PANEL 2: MANDALA CHART AREA -->
+  <section class="content-panel" id="mandalaArea">
+    <div class="mandala-container">
+      <div class="timeline-header">
+        <h2 id="mandalaTitle">私のマンダラチャート</h2>
+        <span class="timeline-meta" id="mandalaMeta"></span>
+      </div>
+      <p style="font-size:0.85rem; color:var(--muted); text-align:left; margin-bottom:1rem;">
+        ※現在表示中の年表をもとに、主要な未来計画からブレイクダウンされた行動展開のイメージです。
+      </p>
+
+      <div class="mandala-grid" id="mandalaGridContent">
+        <!-- JSで動的に、あるいは静的に出力（以下は基本枠組み） -->
+        <!-- 1. 左上: 仕事 -->
+        <div class="mandala-block"><div class="mandala-cell">副業開始</div><div class="mandala-cell">スキルアップ</div><div class="mandala-cell">市場調査</div><div class="mandala-cell">人脈作り</div><div class="mandala-cell" style="color:var(--rust)">仕事</div><div class="mandala-cell">計画策定</div><div class="mandala-cell">資金準備</div><div class="mandala-cell">情報発信</div><div class="mandala-cell">独立準備</div></div>
+        <!-- 2. 中上: 財務 -->
+        <div class="mandala-block"><div class="mandala-cell">NISA運用</div><div class="mandala-cell">家計見直し</div><div class="mandala-cell">固定費削減</div><div class="mandala-cell">投資勉強</div><div class="mandala-cell" style="color:var(--gold)">財務</div><div class="mandala-cell">先取り貯金</div><div class="mandala-cell">資産確認</div><div class="mandala-cell">副収入増</div><div class="mandala-cell">リスク管理</div></div>
+        <!-- 3. 右上: 健康 -->
+        <div class="mandala-block"><div class="mandala-cell">毎日歩く</div><div class="mandala-cell">睡眠確保</div><div class="mandala-cell">食事管理</div><div class="mandala-cell">定期検診</div><div class="mandala-cell" style="color:#7a5a3a">健康</div><div class="mandala-cell">筋トレ</div><div class="mandala-cell">ストレスケア</div><div class="mandala-cell">禁煙/節酒</div><div class="mandala-cell">歯の検診</div></div>
+        <!-- 4. 中左: 家族 -->
+        <div class="mandala-block"><div class="mandala-cell">記念日祝う</div><div class="mandala-cell">会話の時間</div><div class="mandala-cell">家事分担</div><div class="mandala-cell">連絡まめに</div><div class="mandala-cell" style="color:var(--sage)">家族</div><div class="mandala-cell">旅行計画</div><div class="mandala-cell">教育費準備</div><div class="mandala-cell">親への感謝</div><div class="mandala-cell">イベント</div></div>
+        <!-- 5. 中心核心ブロック -->
+        <div class="mandala-block"><div class="mandala-cell">仕事</div><div class="mandala-cell">財務</div><div class="mandala-cell">健康</div><div class="mandala-cell">家族</div><div class="mandala-cell">核心</div><div class="mandala-cell">夢・目標</div><div class="mandala-cell">転機</div><div class="mandala-cell">日常</div><div class="mandala-cell">学習</div></div>
+        <!-- 6. 中右: 夢・目標 -->
+        <div class="mandala-block"><div class="mandala-cell">リスト作成</div><div class="mandala-cell">時間確保</div><div class="mandala-cell">情報収集</div><div class="mandala-cell">一歩踏み出す</div><div class="mandala-cell" style="color:#4a5a7a">夢・目標</div><div class="mandala-cell">仲間を探す</div><div class="mandala-cell">発信する</div><div class="mandala-cell">継続する</div><div class="mandala-cell">達成祝う</div></div>
+        <!-- 7. 左下: 転機 -->
+        <div class="mandala-block"><div class="mandala-cell">環境変化</div><div class="mandala-cell">即断即決</div><div class="mandala-cell">柔軟性</div><div class="mandala-cell">マインドセット</div><div class="mandala-cell" style="color:#7a4a5a">転機</div><div class="mandala-cell">リスク取る</div><div class="mandala-cell">過去を整理</div><div class="mandala-cell">前を向く</div><div class="mandala-cell">新しい道</div></div>
+        <!-- 8. 中下: 日常 -->
+        <div class="mandala-block"><div class="mandala-cell">早起き</div><div class="mandala-cell">掃除</div><div class="mandala-cell">読書</div><div class="mandala-cell">日記</div><div class="mandala-cell">日常</div><div class="mandala-cell">瞑想</div><div class="mandala-cell">ルーティン</div><div class="mandala-cell">感謝</div><div class="mandala-cell">時間の使い方</div></div>
+        <!-- 9. 右下: 学習 -->
+        <div class="mandala-block"><div class="mandala-cell">資格取得</div><div class="mandala-cell">毎日の勉強</div><div class="mandala-cell">本を読む</div><div class="mandala-cell">アウトプット</div><div class="mandala-cell">学習</div><div class="mandala-cell">講座受講</div><div class="mandala-cell">知識共有</div><div class="mandala-cell">深い思考</div><div class="mandala-cell">実践</div></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
   let events = [];
   let selectedCat = '仕事';
   const currentYear = new Date().getFullYear();
+
+  // タブ切り替えロジック
+  function switchView(viewName) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+    
+    if(viewName === 'timeline') {
+      document.getElementById('tabTimeline').classList.add('active');
+      document.getElementById('timelineArea').classList.add('active');
+    } else {
+      document.getElementById('tabMandala').classList.add('active');
+      document.getElementById('mandalaArea').classList.add('active');
+      syncMandalaHeaders();
+    }
+  }
+
+  function syncMandalaHeaders() {
+    const name = document.getElementById('userName').value;
+    const meta = document.getElementById('timelineMeta').textContent;
+    if (name) document.getElementById('mandalaTitle').textContent = name + ' のマンダラチャート';
+    if (meta) document.getElementById('mandalaMeta').textContent = meta;
+  }
 
   function selectCat(el) {
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -563,6 +704,7 @@
       const endYear = birth + target;
       document.getElementById('timelineMeta').textContent = `${birth} — ${endYear}`;
     }
+    syncMandalaHeaders();
   }
 
   function addEvent() {
@@ -604,7 +746,6 @@
       return;
     }
 
-    // Group by decade
     const decades = {};
     filtered.forEach(e => {
       const dec = Math.floor(e.year / 10) * 10;
@@ -710,16 +851,11 @@
     renderTimeline();
   }
 
-  // Load from localStorage on start
   const saved = localStorage.getItem('lifeTimeline');
   if (saved) {
     try { events = JSON.parse(saved); renderTimeline(); } catch {}
   }
 </script>
 
-<footer style="text-align:center; padding: 1.5rem; font-family:'DM Mono',monospace; font-size:0.65rem; color:#7a6e62; letter-spacing:0.1em; border-top: 1px solid #d4c9b0; margin-top: 2rem;">
-  © 2025 人生年表 Life Timeline Designer &nbsp;|&nbsp;
-<a href="privacy.html">プライバシーポリシー</a> | <a href="about.html">このサイトについて</a> | <a href="contact.html">お問い合わせ</a> | <a href="blog.html">コラム</a>
-</footer>
 </body>
 </html>
