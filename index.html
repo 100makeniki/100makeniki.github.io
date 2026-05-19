@@ -17,6 +17,12 @@
     --muted: #7a6e62;
     --line: #d4c9b0;
     --cell-bg: #ffffff;
+    
+    /* マトリクス用微調整カラー */
+    --matrix-1: rgba(181, 69, 27, 0.05);
+    --matrix-2: rgba(90, 122, 90, 0.05);
+    --matrix-3: rgba(201, 148, 42, 0.05);
+    --matrix-4: rgba(122, 110, 98, 0.05);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -80,7 +86,7 @@
     font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.2rem;
     border: 1px solid transparent;
     border-bottom: none;
     background: transparent;
@@ -167,6 +173,12 @@
     border-color: var(--ink);
   }
 
+  .form-group-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
   /* CATEGORY CHIPS */
   .category-chips {
     display: flex;
@@ -204,7 +216,7 @@
     font-size: 0.85rem;
     color: var(--ink);
     resize: vertical;
-    min-height: 70px;
+    min-height: 60px;
     outline: none;
     transition: border-color 0.15s;
   }
@@ -279,7 +291,7 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 12rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -519,6 +531,95 @@
     gap: 0.5rem;
   }
 
+  /* MATRIX (URGENT / IMPORTANT) VIEW SPECIFIC */
+  .matrix-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, minmax(280px, auto));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .matrix-box {
+    background: var(--cell-bg);
+    border: 1.5px solid var(--line);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .matrix-box-1 { background: var(--matrix-1); border-color: rgba(181, 69, 27, 0.2); }
+  .matrix-box-2 { background: var(--matrix-2); border-color: rgba(90, 122, 90, 0.2); }
+  .matrix-box-3 { background: var(--matrix-3); border-color: rgba(201, 148, 42, 0.2); }
+  .matrix-box-4 { background: var(--matrix-4); border-color: rgba(122, 110, 98, 0.2); }
+
+  .matrix-box h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.5rem;
+  }
+  .matrix-box h3 span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .matrix-box-1 h3 { color: var(--rust); }
+  .matrix-box-2 h3 { color: var(--sage); }
+  .matrix-box-3 h3 { color: var(--gold); }
+  .matrix-box-4 h3 { color: var(--muted); }
+
+  .matrix-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+  }
+  .matrix-item {
+    font-size: 0.85rem;
+    background: var(--cell-bg);
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  }
+  .matrix-item-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .matrix-item-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    background: var(--paper);
+    padding: 0.1rem 0.3rem;
+  }
+  .matrix-item-del {
+    background: none;
+    border: none;
+    color: var(--line);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0 0.2rem;
+  }
+  .matrix-item-del:hover { color: var(--rust); }
+
   /* PRINT */
   @media print {
     .sidebar, .header-right, .event-delete, .age-filter, .view-switcher, .mandala-controls { display: none; }
@@ -545,6 +646,7 @@
   <div class="view-switcher">
     <button class="tab-btn active" id="tabTimeline" onclick="switchView('timeline')">⏳ 人生年表</button>
     <button class="tab-btn" id="tabMandala" onclick="switchView('mandala')">🧩 マンダラチャート</button>
+    <button class="tab-btn" id="tabMatrix" onclick="switchView('matrix')">🎯 優先度マトリクス</button>
   </div>
 
   <div class="header-right">
@@ -579,7 +681,7 @@
     </div>
 
     <div class="sidebar-section" id="sidebarEventInput">
-      <h3>イベントを追加</h3>
+      <h3>イベント・タスク追加</h3>
       <div class="form-row">
         <label>年（西暦）</label>
         <input type="number" id="evtYear" placeholder="2025" min="1900" max="2100">
@@ -599,11 +701,27 @@
         <label>タイトル</label>
         <input type="text" id="evtTitle" placeholder="例：定年退職、住宅購入...">
       </div>
+      <div class="form-group-2">
+        <div class="form-row">
+          <label>重要度</label>
+          <select id="evtImportant">
+            <option value="high" selected>高 (Important)</option>
+            <option value="low">低 (Not Important)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>緊急度</label>
+          <select id="evtUrgent">
+            <option value="high" selected>高 (Urgent)</option>
+            <option value="low">低 (Not Urgent)</option>
+          </select>
+        </div>
+      </div>
       <div class="form-row">
         <label>メモ（任意）</label>
         <textarea class="form-row-note" id="evtNote" placeholder="詳細・目標金額・気持ちなど..."></textarea>
       </div>
-      <button class="add-btn" onclick="addEvent()">＋ 年表に追加</button>
+      <button class="add-btn" onclick="addEvent()">＋ リストに追加</button>
     </div>
 
     <div class="sidebar-section">
@@ -612,6 +730,7 @@
     </div>
   </aside>
 
+  <!-- TIMELINE AREA -->
   <section class="content-panel active" id="timelineArea">
     <div class="timeline-header">
       <h2 id="timelineTitle">私の人生年表</h2>
@@ -653,6 +772,7 @@
     </div>
   </section>
 
+  <!-- MANDALA AREA -->
   <section class="content-panel" id="mandalaArea">
     <div class="mandala-container">
       <div class="timeline-header">
@@ -682,6 +802,42 @@
       </div>
     </div>
   </section>
+
+  <!-- PRIORITY MATRIX AREA -->
+  <section class="content-panel" id="matrixArea">
+    <div class="matrix-container">
+      <div class="timeline-header">
+        <h2 id="matrixTitle">優先度マトリクス</h2>
+        <span class="timeline-meta" id="matrixMeta"></span>
+      </div>
+      <p style="font-size:0.85rem; color:var(--muted); text-align:left; margin-bottom:1rem;">
+        追加したライフイベントやタスクが、設定した「重要度」と「緊急度」に応じて4つの領域に自動分類されます。
+      </p>
+
+      <div class="matrix-grid">
+        <!-- 第1象限 -->
+        <div class="matrix-box matrix-box-1">
+          <h3>第Ⅰ領域：重要 × 緊急 <span>💥 必須・即対応</span></h3>
+          <ul class="matrix-list" id="matrixList-high-high"></ul>
+        </div>
+        <!-- 第2象限 -->
+        <div class="matrix-box matrix-box-2">
+          <h3>第Ⅱ領域：重要 × 非緊急 <span>🌱 価値・自己投資</span></h3>
+          <ul class="matrix-list" id="matrixList-high-low"></ul>
+        </div>
+        <!-- 第3象限 -->
+        <div class="matrix-box matrix-box-3">
+          <h3>第Ⅲ領域：非重要 × 緊急 <span>⚡ 錯覚・委任削減</span></h3>
+          <ul class="matrix-list" id="matrixList-low-high"></ul>
+        </div>
+        <!-- 第4象限 -->
+        <div class="matrix-box matrix-box-4">
+          <h3>第Ⅳ領域：非重要 × 非緊急 <span>☕ 浪費・息抜き</span></h3>
+          <ul class="matrix-list" id="matrixList-low-low"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
@@ -689,8 +845,6 @@
   let selectedCat = '仕事';
   const currentYear = new Date().getFullYear();
 
-  // マンダラチャートのインデックス・連動マッピング（1〜9のセルと外周1〜9のブロック関係）
-  // 5番（真ん中）の周囲のセル番号 [1,2,3,4,6,7,8,9] と同期する外周ブロック番号の対応表
   const cellToBlockMap = { 1: 1, 2: 2, 3: 3, 4: 4, 6: 6, 7: 7, 8: 8, 9: 9 };
   const blockToCellMap = { 1: 1, 2: 2, 3: 3, 4: 4, 6: 6, 7: 7, 8: 8, 9: 9 };
 
@@ -701,18 +855,30 @@
     if(viewName === 'timeline') {
       document.getElementById('tabTimeline').classList.add('active');
       document.getElementById('timelineArea').classList.add('active');
-    } else {
+    } else if(viewName === 'mandala') {
       document.getElementById('tabMandala').classList.add('active');
       document.getElementById('mandalaArea').classList.add('active');
-      syncMandalaHeaders();
+      syncGlobalHeaders();
+    } else if(viewName === 'matrix') {
+      document.getElementById('tabMatrix').classList.add('active');
+      document.getElementById('matrixArea').classList.add('active');
+      syncGlobalHeaders();
+      renderMatrix();
     }
   }
 
-  function syncMandalaHeaders() {
+  function syncGlobalHeaders() {
     const name = document.getElementById('userName').value;
     const meta = document.getElementById('timelineMeta').textContent;
-    if (name) document.getElementById('mandalaTitle').textContent = name + ' のマンダラチャート';
-    if (meta) document.getElementById('mandalaMeta').textContent = meta;
+    
+    if (name) {
+      document.getElementById('mandalaTitle').textContent = name + ' のマンダラチャート';
+      document.getElementById('matrixTitle').textContent = name + ' の優先度マトリクス';
+    }
+    if (meta) {
+      document.getElementById('mandalaMeta').textContent = meta;
+      document.getElementById('matrixMeta').textContent = meta;
+    }
   }
 
   function selectCat(el) {
@@ -730,25 +896,41 @@
       const endYear = birth + target;
       document.getElementById('timelineMeta').textContent = `${birth} — ${endYear}`;
     }
-    syncMandalaHeaders();
+    syncGlobalHeaders();
   }
 
   function addEvent() {
     const year = parseInt(document.getElementById('evtYear').value);
     const title = document.getElementById('evtTitle').value.trim();
+    const important = document.getElementById('evtImportant').value;
+    const urgent = document.getElementById('evtUrgent').value;
+    
     if (!year || !title) { alert('年とタイトルを入力してください'); return; }
-    events.push({ year, cat: selectedCat, title, note: document.getElementById('evtNote').value.trim(), id: Date.now() });
+    
+    events.push({ 
+      year, 
+      cat: selectedCat, 
+      title, 
+      important,
+      urgent,
+      note: document.getElementById('evtNote').value.trim(), 
+      id: Date.now() 
+    });
+    
     events.sort((a, b) => a.year - b.year);
     document.getElementById('evtYear').value = '';
     document.getElementById('evtTitle').value = '';
     document.getElementById('evtNote').value = '';
+    
     renderTimeline();
+    renderMatrix();
     saveLocal();
   }
 
   function deleteEvent(id) {
     events = events.filter(e => e.id !== id);
     renderTimeline();
+    renderMatrix();
     saveLocal();
   }
 
@@ -809,21 +991,78 @@
     document.getElementById('timelineContent').innerHTML = html;
   }
 
+  // 優先度マトリクスの振り分け描画
+  function renderMatrix() {
+    const lists = {
+      'high-high': document.getElementById('matrixList-high-high'),
+      'high-low': document.getElementById('matrixList-high-low'),
+      'low-high': document.getElementById('matrixList-low-high'),
+      'low-low': document.getElementById('matrixList-low-low')
+    };
+
+    // 初期化
+    for (let key in lists) { if(lists[key]) lists[key].innerHTML = ''; }
+
+    if (events.length === 0) {
+      for (let key in lists) {
+        if(lists[key]) lists[key].innerHTML = '<li style="font-size:0.75rem;color:var(--muted);text-align:center;padding:1rem;">データがありません</li>';
+      }
+      return;
+    }
+
+    events.forEach(e => {
+      // 互換性担保（昔のデータ等で重要度・緊急度が無い場合は一律第Ⅱ領域 high-low とする）
+      const imp = e.important || 'high';
+      const urg = e.urgent || 'low';
+      const targetList = lists[`${imp}-${urg}`];
+
+      if (targetList) {
+        const li = document.createElement('li');
+        li.className = 'matrix-item';
+        
+        // カテゴリ毎のミニ目印のモック
+        let dotColor = 'var(--ink)';
+        if(e.cat === '仕事') dotColor = 'var(--rust)';
+        else if(e.cat === '家族') dotColor = 'var(--sage)';
+        else if(e.cat === '健康') dotColor = '#7a5a3a';
+        else if(e.cat === '財務') dotColor = 'var(--gold)';
+        else if(e.cat === '夢・目標') dotColor = '#4a5a7a';
+        else if(e.cat === '転機') dotColor = '#7a4a5a';
+
+        li.innerHTML = `
+          <div class="matrix-item-title">
+            <span style="width:6px;height:6px;border-radius:50%;background:${dotColor};display:inline-block;"></span>
+            ${e.title}
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="matrix-item-year">${e.year}年</span>
+            <button class="matrix-item-del" onclick="deleteEvent(${e.id})">×</button>
+          </div>
+        `;
+        targetList.appendChild(li);
+      }
+    });
+
+    // 空欄箇所にプレースホルダー配置
+    for (let key in lists) {
+      if (lists[key] && lists[key].children.length === 0) {
+        lists[key].innerHTML = '<li style="font-size:0.75rem;color:var(--muted);text-align:center;padding:1rem;">該当する計画はありません</li>';
+      }
+    }
+  }
+
   function saveLocal() {
     localStorage.setItem('lifeTimeline', JSON.stringify(events));
   }
 
-  // 入力時の双方向変換・自動同期ハンドラー
   function handleMandalaInput(blockNum, cellNum) {
     const value = document.getElementById(`m-cell-${blockNum}-${cellNum}`).value;
 
-    // パターンA: 中央ブロック(5)の周囲8マスが変更された場合 -> 対応する外周ブロックの中心(5番セル)を書き換える
     if (blockNum === 5 && cellToBlockMap[cellNum]) {
       const targetBlock = cellToBlockMap[cellNum];
       const targetCell = document.getElementById(`m-cell-${targetBlock}-5`);
       if (targetCell) targetCell.value = value;
     }
-    // パターンB: 外周ブロックの中心(5番セル)が変更された場合 -> 中央ブロック(5)の対応するマスを書き換える
     else if (blockNum !== 5 && cellNum === 5 && blockToCellMap[blockNum]) {
       const targetCellNum = blockToCellMap[blockNum];
       const targetCell = document.getElementById(`m-cell-5-${targetCellNum}`);
@@ -872,7 +1111,7 @@
       const el = document.getElementById(id);
       if (el) el.value = defaults[id];
     }
-    saveMandalaLocal(); // 初期配置をローカルにも即時適用
+    saveMandalaLocal();
   }
 
   function clearMandala() {
@@ -924,6 +1163,7 @@
           events = data.events || [];
           updateMeta();
           renderTimeline();
+          renderMatrix();
           saveLocal();
           
           if (data.mandalaData) {
@@ -945,26 +1185,27 @@
     document.getElementById('birthYear').value = '1985';
     document.getElementById('targetAge').value = '90';
     events = [
-      { id: 1, year: 1985, cat: '家族', title: '誕生', note: '東京都生まれ' },
-      { id: 2, year: 2004, cat: '仕事', title: '大学入学', note: '経済学部へ進学' },
-      { id: 3, year: 2007, cat: '財務', title: '初めての投資信託', note: 'つみたてNISA前身を開始。月1万円から。' },
-      { id: 4, year: 2008, cat: '仕事', title: '就職', note: 'IT企業に入社。年収320万円スタート。' },
-      { id: 5, year: 2012, cat: '家族', title: '結婚', note: '35歳を目処に家族計画を立てていたが早まった' },
-      { id: 6, year: 2014, cat: '家族', title: '第一子誕生', note: '育休1年取得。資産形成を一時停止。' },
-      { id: 7, year: 2018, cat: '財務', title: 'マンション購入', note: '3500万円・35年ローン。頭金700万円用意。' },
-      { id: 8, year: 2020, cat: '仕事', title: '転職・年収アップ', note: '年収480万→620万。副業もスタート。' },
-      { id: 9, year: 2023, cat: '財務', title: 'NISA満額投資開始', note: '年360万円上限フル活用。老後資金の柱に。' },
-      { id: 10, year: 2025, cat: '夢・目標', title: 'サイド収入 月3万達成', note: '副業サイト運営で安定収入へ' },
-      { id: 11, year: 2030, cat: '財務', title: '資産3000万円目標', note: 'NISA+iDeCo+不動産で達成予定' },
-      { id: 12, year: 2035, cat: '仕事', title: '独立・フリーランス転向', note: '50歳で会社に依存しない働き方へ' },
+      { id: 1, year: 1985, cat: '家族', title: '誕生', important: 'high', urgent: 'high', note: '東京都生まれ' },
+      { id: 2, year: 2004, cat: '仕事', title: '大学入学', important: 'high', urgent: 'low', note: '経済学部へ進学' },
+      { id: 3, year: 2007, cat: '財務', title: '初めての投資信託', important: 'high', urgent: 'low', note: 'つみたてNISA前身を開始。月1万円から。' },
+      { id: 4, year: 2008, cat: '仕事', title: '就職', important: 'high', urgent: 'high', note: 'IT企業に入社。年収320万円スタート。' },
+      { id: 5, year: 2012, cat: '家族', title: '結婚', important: 'high', urgent: 'low', note: '35歳を目処に家族計画を立てていたが早まった' },
+      { id: 6, year: 2014, cat: '家族', title: '第一子誕生', important: 'high', urgent: 'high', note: '育休1年取得。資産形成を一時停止。' },
+      { id: 7, year: 2018, cat: '財務', title: 'マンション購入', important: 'high', urgent: 'high', note: '3500万円・35年ローン。頭金700万円用意。' },
+      { id: 8, year: 2020, cat: '仕事', title: '転職・年収アップ', important: 'high', urgent: 'high', note: '年収480万→620万。副業もスタート。' },
+      { id: 9, year: 2023, cat: '財務', title: 'NISA満額投資開始', important: 'high', urgent: 'low', note: '年360万円上限フル活用。老後資金の柱に。' },
+      { id: 10, year: 2025, cat: '夢・目標', title: 'サイド収入 月3万達成', important: 'high', urgent: 'low', note: '副業サイト運営で安定収入へ' },
+      { id: 11, year: 2030, cat: '財務', title: '資産3000万円目標', important: 'high', urgent: 'low', note: 'NISA+iDeCo+不動産で達成予定' },
+      { id: 12, year: 2035, cat: '仕事', title: '独立・フリーランス転向', important: 'high', urgent: 'low', note: '50歳で会社に依存しない働き方へ' },
       { id: 13, year: 2040, cat: '家族', title: '子どもの大学卒業', note: '教育費終了。資産形成を加速。' },
-      { id: 14, year: 2045, cat: '健康', title: '人間ドック強化', note: '60歳から毎年精密検査。予防医療に投資。' },
-      { id: 15, year: 2050, cat: '財務', title: 'セミリタイア', note: '資産8000万円を目標。取り崩し生活へ移行。' },
-      { id: 16, year: 2055, cat: '夢・目標', title: '世界一周旅行', note: '70歳記念。夫婦で6ヶ月かけて旅する。' },
-      { id: 17, year: 2075, cat: '健康', title: '90歳 健康寿命の維持', note: '自立した生活を続けることが最大の目標。' },
+      { id: 14, year: 2045, cat: '健康', title: '人間ドック強化', important: 'high', urgent: 'high', note: '60歳から毎年精密検査。予防医療に投資。' },
+      { id: 15, year: 2050, cat: '財務', title: 'セミリタイア', important: 'high', urgent: 'low', note: '資産8000万円を目標。取り崩し生活へ移行。' },
+      { id: 16, year: 2055, cat: '夢・目標', title: '世界一周旅行', important: 'low', urgent: 'low', note: '70歳記念。夫婦で6ヶ月かけて旅する。' },
+      { id: 17, year: 2075, cat: '健康', title: '90歳 健康寿命の維持', important: 'high', urgent: 'low', note: '自立した生活を続けることが最大の目標。' },
     ];
     updateMeta();
     renderTimeline();
+    renderMatrix();
   }
 
   window.onload = function() {
@@ -974,6 +1215,7 @@
     }
     loadMandalaLocal();
     updateMeta();
+    renderMatrix();
   }
 </script>
 
